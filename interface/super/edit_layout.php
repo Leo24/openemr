@@ -979,6 +979,7 @@ function changeColor(lino){
     }
 }
 
+
 // Call this to disable the warning about unsaved changes and submit the form.
 function mySubmit() {
  somethingChanged = false;
@@ -1673,7 +1674,9 @@ $(document).ready(function(){
     somethingChanged = true;
   });
   window.addEventListener("beforeunload", function (e) {
+
     if (somethingChanged && !top.timed_out) {
+
       var msg = "<?php echo xls('You have unsaved changes.'); ?>";
       e.returnValue = msg;     // Gecko, Trident, Chrome 34+
       return msg;              // Gecko, WebKit, Chrome <34

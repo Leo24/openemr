@@ -12,30 +12,33 @@ include_once("../../globals.php");
 include_once("$srcdir/sql.inc");
 include_once("$srcdir/options.inc.php");
 include_once("$srcdir/immunization_helper.php");
+require_once($GLOBALS['srcdir']."/formatting.inc.php");
+$DateFormat = DateFormatRead();
+$DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
 
 if (isset($_GET['mode'])) {
     /*
-	 * THIS IS A BUG. IF NEW IMMUN IS ADDED AND USER PRINTS PDF, 
+	 * THIS IS A BUG. IF NEW IMMUN IS ADDED AND USER PRINTS PDF,
 	 * WHEN BACK IS CLICKED, ANOTHER ITEM GETS ADDED
 	 */
-	
-	if ($_GET['mode'] == "add") {		
-        $sql = "REPLACE INTO immunizations set 
+
+	if ($_GET['mode'] == "add") {
+        $sql = "REPLACE INTO immunizations set
                       id = ?,
-                      administered_date = if(?,?,NULL),  
+                      administered_date = if(?,?,NULL),
                       immunization_id = ?,
-                      cvx_code = ?, 
+                      cvx_code = ?,
                       manufacturer = ?,
                       lot_number = ?,
                       administered_by_id = if(?,?,NULL),
                       administered_by = if(?,?,NULL),
-                      education_date = if(?,?,NULL), 
-                      vis_date = if(?,?,NULL), 
+                      education_date = if(?,?,NULL),
+                      vis_date = if(?,?,NULL),
                       note   = ?,
                       patient_id   = ?,
                       created_by = ?,
                       updated_by = ?,
-   				      create_date = now(), 
+   				      create_date = now(),
 					  amount_administered = ?,
 					  amount_administered_unit = ?,
 					  expiration_date = if(?,?,NULL),
@@ -79,7 +82,7 @@ if (isset($_GET['mode'])) {
         if($GLOBALS['observation_results_immunization']) {
           saveImmunizationObservationResults($newid,$_GET);
         }
-		
+
     }
     elseif ($_GET['mode'] == "delete" ) {
         // log the event
@@ -87,7 +90,7 @@ if (isset($_GET['mode'])) {
         // delete the immunization
         $sql="DELETE FROM immunizations WHERE id =? LIMIT 1";
         sqlStatement($sql, array($_GET['id']));
-		
+
     }
 	elseif ($_GET['mode'] == "added_error" ) {
 		$sql = "UPDATE immunizations " .
@@ -102,15 +105,15 @@ if (isset($_GET['mode'])) {
     elseif ($_GET['mode'] == "edit" ) {
         $sql = "select * from immunizations where id = ?";
         $result = sqlQuery($sql, array($_GET['id']));
-		
+
 		$administered_date = new DateTime($result['administered_date']);
 		$administered_date = $administered_date->format('Y-m-d H:i');
-		
+
 		$immuniz_amt_adminstrd = $result['amount_administered'];
 		$drugunitselecteditem = $result['amount_administered_unit'];
-        $immunization_id = $result['immunization_id'];	
+        $immunization_id = $result['immunization_id'];
 		$immuniz_exp_date = $result['expiration_date'];
-		
+
 		$cvx_code = $result['cvx_code'];
         $code_text = '';
         if ( !(empty($cvx_code)) ) {
@@ -135,7 +138,7 @@ if (isset($_GET['mode'])) {
     		$user_result = sqlQuery($stmt, array($result['administered_by_id']));
     		$administered_by = $user_result['full_name'];
 		}
-		
+
         $education_date = $result['education_date'];
         $vis_date = $result['vis_date'];
 		$immuniz_route = $result['route'];
@@ -149,7 +152,7 @@ if (isset($_GET['mode'])) {
 	//set id for page
 	$id = $_GET['id'];
 	
-        $imm_obs_data = getImmunizationObservationResults();	
+        $imm_obs_data = getImmunizationObservationResults();
     }
 }
 
@@ -308,7 +311,7 @@ function saveImmunizationObservationResults($id,$immunizationdata)
 <?php html_header_show();?>
 
 <!-- supporting javascript code -->
-<script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/textformat.js"></script>
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dialog.js"></script>
 
@@ -322,9 +325,9 @@ function saveImmunizationObservationResults($id,$immunizationdata)
 }
 tr.selected {
   background-color: white;
-}	
+}
 </style>
-		
+
 <!-- pop up calendar -->
 <style type="text/css">@import url(<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar.css);</style>
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar.js"></script>
@@ -350,15 +353,15 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
 
 <form action="immunizations.php" name="add_immunization" id="add_immunization">
 <input type="hidden" name="mode" id="mode" value="add">
-<input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars( $id, ENT_QUOTES); ?>"> 
-<input type="hidden" name="pid" id="pid" value="<?php echo htmlspecialchars( $pid, ENT_QUOTES); ?>"> 
+<input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars( $id, ENT_QUOTES); ?>">
+<input type="hidden" name="pid" id="pid" value="<?php echo htmlspecialchars( $pid, ENT_QUOTES); ?>">
 <br>
       <table border=0 cellpadding=1 cellspacing=1>
 	  <?php
 	  	if ($isAddedError) {
 			echo "<tr><font color='red'><b>" . xlt("Entered in Error") . "</b></font></tr>";
 		}
-	  ?> 
+	  ?>
 
       <?php if (!($useCVX)) { ?>
         <tr>
@@ -369,7 +372,7 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
               <?php
                	// Modified 7/2009 by BM to incorporate the immunization items into the list_options listings
                 generate_form_field(array('data_type'=>1,'field_id'=>'immunization_id','list_id'=>'immunizations','empty_title'=>'SKIP'), $immunization_id);
-              ?>          
+              ?>
 		   </td>
         </tr>
       <?php } else { ?>
@@ -386,7 +389,7 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
 		        <?php echo htmlspecialchars( xl( $code_text ), ENT_QUOTES); ?>		    </div>		  </td>
 		</tr>
       <?php } ?>
-        
+
         <tr>
           <td align="right">
             <span class=text>
@@ -394,13 +397,9 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
           <td><table border="0">
      <tr>
        <td><input type='text' size='14' name="administered_date" id="administered_date"
-    		value='<?php echo $administered_date ? htmlspecialchars( $administered_date, ENT_QUOTES) : date('Y-m-d H:i'); ?>'
+    		value='<?php echo $administered_date ? date(DateFormatRead(true) . ' H:i', strtotime(text($administered_date))) : date(str_replace('%','',$DateFormat.' H:i')); ?>'
     		title='<?php echo htmlspecialchars( xl('yyyy-mm-dd Hours(24):minutes'), ENT_QUOTES); ?>'
-    		onKeyUp='datekeyup(this,mypcc)' onBlur='dateblur(this,mypcc);'
     		/>
-         	<img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22'
-    			id='img_administered_date' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
-    			title='<?php echo htmlspecialchars( xl('Click here to choose a date'), ENT_QUOTES); ?>'>
 		</td>
      </tr>
    </table></td>
@@ -415,14 +414,10 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
         <tr>
           <td align="right"><span class="text"><?php echo htmlspecialchars( xl('Immunization Expiration Date'), ENT_NOQUOTES); ?></span></td>
           <td class='text'><input type='text' size='10' name="immuniz_exp_date" id="immuniz_exp_date"
-    value='<?php echo $immuniz_exp_date ? htmlspecialchars( $immuniz_exp_date, ENT_QUOTES) : ''; ?>'
-    title='<?php echo htmlspecialchars( xl('yyyy-mm-dd'), ENT_QUOTES); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);'
-    />
-          <img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22'
-    id='img_immuniz_exp_date' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
-    title='<?php echo htmlspecialchars( xl('Click here to choose a date'), ENT_QUOTES); ?>'></td>
-        </tr>		
+             value='<?php echo $immuniz_exp_date ? htmlspecialchars( oeFormatShortDate($immuniz_exp_date), ENT_QUOTES) : ''; ?>'
+                title='<?php echo htmlspecialchars( xl('yyyy-mm-dd'), ENT_QUOTES); ?>'/>
+          </td>
+        </tr>
         <tr>
           <td align="right">
             <span class=text>
@@ -466,14 +461,9 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
               <?php echo htmlspecialchars( xl('Date Immunization Information Statements Given'), ENT_NOQUOTES); ?>          </td>
           <td>
             <input type='text' size='10' name="education_date" id="education_date"
-                    value='<?php echo $education_date? htmlspecialchars( $education_date, ENT_QUOTES) : date('Y-m-d'); ?>'
-                    title='<?php echo htmlspecialchars( xl('yyyy-mm-dd'), ENT_QUOTES); ?>'
-                    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);'
-            />
-            <img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22'
-                id='img_education_date' border='0' alt='[?]' style='cursor:pointer;'
-                title='<?php echo htmlspecialchars( xl('Click here to choose a date'), ENT_QUOTES); ?>'
-            />          </td>
+                    value='<?php echo $education_date? htmlspecialchars( $education_date, ENT_QUOTES) : oeFormatShortDate(date('Y-m-d')); ?>'
+                    title='<?php echo htmlspecialchars( xl('yyyy-mm-dd'), ENT_QUOTES); ?>'/>
+          </td>
         </tr>
         <tr>
           <td align="right" class="text">
@@ -481,19 +471,15 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
               (<a href="http://www.cdc.gov/vaccines/pubs/vis/default.htm" title="<?php echo htmlspecialchars( xl('Help'), ENT_QUOTES); ?>" target="_blank">?</a>)          </td>
           <td>
             <input type='text' size='10' name="vis_date" id="vis_date"
-                    value='<?php echo $vis_date ? htmlspecialchars( $vis_date, ENT_QUOTES) : date('Y-m-d'); ?>'
+                    value='<?php echo $vis_date ? date(DateFormatRead(true), strtotime(text($vis_date))) : oeFormatShortDate(date('Y-m-d')); ?>'
                     title='<?php echo htmlspecialchars( xl('yyyy-mm-dd'), ENT_QUOTES); ?>'
-                    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);'
             />
-            <img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22'
-                id='img_vis_date' border='0' alt='[?]' style='cursor:pointer;'
-                title='<?php echo htmlspecialchars( xl('Click here to choose a date'), ENT_QUOTES); ?>'
-            />          </td>
+          </td>
         </tr>
         <tr>
           <td align="right" class='text'><?php echo htmlspecialchars( xl('Route'), ENT_NOQUOTES); ?></td>
           <td>
-		  	<?php echo generate_select_list('immuniz_route', 'drug_route', $immuniz_route, 'Select Route', '');?>		  
+		  	<?php echo generate_select_list('immuniz_route', 'drug_route', $immuniz_route, 'Select Route', '');?>
 		  </td>
         </tr>
         <tr>
@@ -719,11 +705,11 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
           <td colspan="3" align="center">
 
 	    <input type="button" name="save" id="save" value="<?php echo htmlspecialchars( xl('Save Immunization'), ENT_QUOTES); ?>">
-	
+
             <input type="button" name="print" id="print" value="<?php echo htmlspecialchars( xl('Print Record') . xl('PDF','',' (',')'), ENT_QUOTES); ?>">
-	
+
 	    <input type="button" name="printHtml" id="printHtml" value="<?php echo htmlspecialchars( xl('Print Record') . xl('HTML','',' (',')'), ENT_QUOTES); ?>">
-            
+
             <input type="reset" name="clear" id="clear" value="<?php echo htmlspecialchars( xl('Clear'), ENT_QUOTES); ?>">          </td>
         </tr>
       </table>
@@ -758,13 +744,13 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
     <th><?php echo htmlspecialchars( xl('Error'), ENT_NOQUOTES); ?></th>
 	<th>&nbsp;</th>
     </tr>
-    
+
 <?php
 		$result = getImmunizationList($pid, $_GET['sortby'], true);
-			
+
         while($row = sqlFetchArray($result)) {
 			$isError = $row['added_erroneously'];
-			
+
 			if ($isError) {
 				$tr_title = 'title="' . xla("Entered in Error") . '"';
 			} else {
@@ -789,32 +775,32 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
                 else {
                     $vaccine_display = generate_display_field(array('data_type'=>'1','list_id'=>'immunizations'), $row['immunization_id']);
                 }
-            } 
-			
+            }
+
 			if ($isError) {
 				$del_tag_open = "<del>";
 				$del_tag_close = "</del>";
 			} else {
 				$del_tag_open = "";
-				$del_tag_close = "";				
-			}			
-			
+				$del_tag_close = "";
+			}
+
             echo "<td>" . $del_tag_open . $vaccine_display . $del_tag_close . "</td>";
-			
+
 			if ($row["administered_date"]) {
 				$administered_date_summary = new DateTime($row['administered_date']);
 				$administered_date_summary = $administered_date_summary->format('Y-m-d H:i');
 			} else {
 				$administered_date_summary = "";
-			}			
-			echo "<td>" . $del_tag_open . htmlspecialchars( $administered_date_summary, ENT_NOQUOTES) . $del_tag_close . "</td>";
+			}
+			echo "<td>" . $del_tag_open .text(date(DateFormatRead(true) . ' H:i:s', strtotime($administered_date_summary))) . $del_tag_close . "</td>";
                         if ($row["amount_administered"] > 0) {
 			        echo "<td>" . $del_tag_open . htmlspecialchars( $row["amount_administered"] . " " . generate_display_field(array('data_type'=>'1','list_id'=>'drug_units'), $row['amount_administered_unit']) , ENT_NOQUOTES) . $del_tag_close . "</td>";
                         }
                         else {
                                echo "<td>&nbsp</td>";
                         }
-			echo "<td>" . $del_tag_open . text($row["expiration_date"]) . $del_tag_close . "</td>";
+			echo "<td>" . $del_tag_open . text(date(DateFormatRead(true) . ' H:i:s', strtotime($row["expiration_date"]))) . $del_tag_close . "</td>";
                         echo "<td>" . $del_tag_open . htmlspecialchars( $row["manufacturer"], ENT_NOQUOTES) . $del_tag_close . "</td>";
             echo "<td>" . $del_tag_open . htmlspecialchars( $row["lot_number"], ENT_NOQUOTES) . $del_tag_close . "</td>";
             echo "<td>" . $del_tag_open . htmlspecialchars( $row["administered_by"], ENT_NOQUOTES) . $del_tag_close . "</td>";
@@ -823,15 +809,15 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
 			echo "<td>" . $del_tag_open . generate_display_field(array('data_type'=>'1','list_id'=>'immunization_administered_site'), $row['administration_site']) . $del_tag_close . "</td>";
 			echo "<td>" . $del_tag_open . htmlspecialchars( $row["note"], ENT_NOQUOTES) . $del_tag_close . "</td>";
                         echo "<td>" . $del_tag_open . generate_display_field(array('data_type'=>'1','list_id'=>'Immunization_Completion_Status'), $row['completion_status']) . $del_tag_close . "</td>";
-			
+
 			if ($isError) {
 				$checkbox = "checked";
 			} else {
 				$checkbox = "";
 			}
-			
+
             echo "<td><input type='checkbox' class='error' id='".htmlspecialchars( $row["id"], ENT_QUOTES)."' value='" . htmlspecialchars( xl('Error'), ENT_QUOTES) . "' " . $checkbox . "></td>";
-			
+
 			echo "<td><input type='button' class='delete' id='".htmlspecialchars( $row["id"], ENT_QUOTES)."' value='" . htmlspecialchars( xl('Delete'), ENT_QUOTES) . "'></td>";
             echo "</tr>";
         }
@@ -842,7 +828,8 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
 </div> <!-- end immunizations -->
 
   </body>
-
+<link rel="stylesheet" href="../../../library/css/jquery.datetimepicker.css">
+<script type="text/javascript" src="../../../library/js/jquery.datetimepicker.full.min.js"></script>
 <script language="javascript">
 var tr_count = $('#tr_count').val();
 /* required for popup calendar */
@@ -853,13 +840,24 @@ Calendar.setup({inputField:"vis_date", ifFormat:"%Y-%m-%d", button:"img_vis_date
 Calendar.setup({inputField:"vis_published_date_"+tr_count, ifFormat:"%Y-%m-%d", button:"img_immuniz_vis_date_published_"+tr_count});
 Calendar.setup({inputField:"vis_presented_date_"+tr_count, ifFormat:"%Y-%m-%d", button:"img_immuniz_vis_date_presented_"+tr_count});
 
+$(function() {
+    $("#administered_date").datetimepicker({
+        timepicker: true,
+        format: "<?= DateFormatRead(true); ?>"
+    });
+    $("#immuniz_exp_date, #education_date, #vis_date").datetimepicker({
+        timepicker: false,
+        format: "<?= $DateFormat; ?>"
+    });
+    $.datetimepicker.setLocale('<?= $DateLocale;?>');
+});
 // jQuery stuff to make the page a little easier to use
 
 $(document).ready(function(){
     <?php if (!($useCVX)) { ?>
       $("#save").click(function() { SaveForm(); });
     <?php } else { ?>
-      $("#save").click(function() { 
+      $("#save").click(function() {
         if (validate_cvx()) {
           SaveForm();
         }
@@ -923,14 +921,14 @@ function set_related(codetype, code, selector, codedesc) {
 	var f = document.forms[0][current_sel_name];
         if(!f.length) {
 	var s = f.value;
-	
+
 	if (code) {
 		s = code;
 	}
 	else {
 		s = '';
 	}
-	
+
 	f.value = s;
             if(f.name != 'cvx_vac_type_code[]'){
 	$("#cvx_description").text( codedesc );
@@ -982,7 +980,7 @@ function validate_cvx() {
   document.add_immunization.cvx_code.style.backgroundColor="red";
   document.add_immunization.cvx_code.focus();
   return false;
- }   
+ }
 }
 
 function showObservationResultSection()

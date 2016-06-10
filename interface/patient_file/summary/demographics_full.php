@@ -11,6 +11,9 @@ require_once("$srcdir/formatting.inc.php");
 require_once("$srcdir/erx_javascript.inc.php");
 require_once("$srcdir/validation/LBF_Validation.php");
 
+$DateFormat = DateFormatRead();
+$DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
+
  // Session pid must be right or bad things can happen when demographics are saved!
  //
  include_once("$srcdir/pid.inc");
@@ -21,7 +24,7 @@ require_once("$srcdir/validation/LBF_Validation.php");
 
  include_once("$srcdir/patient.inc");
 
- $result = getPatientData($pid, "*, DATE_FORMAT(DOB,'%Y-%m-%d') as DOB_YMD");
+ $result = getPatientData($pid, "*, DATE_FORMAT(DOB,'".$DateFormat."') as DOB_YMD");
  $result2 = getEmployerData($pid);
 
  // Check authorization.
@@ -56,15 +59,14 @@ $fres = sqlStatement("SELECT * FROM layout_options " .
 <?php html_header_show();?>
 
 <link rel="stylesheet" href="<?php echo $css_header; ?>" type="text/css">
-
-<style type="text/css">@import url(../../../library/dynarch_calendar.css);</style>
-
 <script type="text/javascript" src="../../../library/dialog.js"></script>
 <script type="text/javascript" src="../../../library/textformat.js"></script>
+
 <script type="text/javascript" src="../../../library/dynarch_calendar.js"></script>
 <?php include_once("{$GLOBALS['srcdir']}/dynarch_calendar_en.inc.php"); ?>
 <script type="text/javascript" src="../../../library/dynarch_calendar_setup.js"></script>
 <script type="text/javascript" src="../../../library/js/jquery-1.9.1.min.js"></script>
+
 <script type="text/javascript" src="../../../library/js/common.js"></script>
 <script type="text/javascript" src="../../../library/js/fancybox/jquery.fancybox-1.2.6.js"></script>
 
@@ -94,7 +96,9 @@ $(document).ready(function(){
     somethingChanged = true;
   });
   window.addEventListener("beforeunload", function (e) {
+
     if (somethingChanged && !top.timed_out) {
+
       var msg = "<?php echo xls('You have unsaved changes.'); ?>";
       e.returnValue = msg;     // Gecko, Trident, Chrome 34+
       return msg;              // Gecko, WebKit, Chrome <34
@@ -342,6 +346,14 @@ if(dateVal > currentDate)
 }
 
 
+function submitme() {
+ var f = document.forms[0];
+ if (validate(f)) {
+  somethingChanged = false; // turn off "are you sure you want to leave"
+  top.restoreSession();
+  f.submit();
+ }
+}
 
 // Onkeyup handler for policy number.  Allows only A-Z and 0-9.
 function policykeyup(e) {
@@ -543,10 +555,7 @@ $group_seq=0; // this gives the DIV blocks unique IDs
 			 <td class='required'>:</td>
 			 <td>
 			  <input type='entry' size='16' id='i<?php echo $i ?>effective_date' name='i<?php echo $i ?>effective_date'
-			   value='<?php echo $result3['date'] ?>'
-			   onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-			   title='yyyy-mm-dd' />
-                          <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22' id='img_i<?php echo $i ?>effective_date' border='0' alt='[?]' style='cursor:pointer' title='<?php xl('Click here to choose a date','e'); ?>'>
+			   value='<?php echo htmlspecialchars(oeFormatShortDate($result3['date'])) ?>'/>
 			 </td>
 			</tr>
 
@@ -638,7 +647,10 @@ $group_seq=0; // this gives the DIV blocks unique IDs
 			<tr>
 				<td><span class=bold><?php xl('D.O.B.','e'); ?> </span></td>
 				<td class=required>:</td>
-				<td><input type='entry' size='11' id='i<?php echo $i?>subscriber_DOB' name='i<?php echo $i?>subscriber_DOB' value='<?php echo $result3['subscriber_DOB'] ?>' onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='yyyy-mm-dd' /><img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22' id='img_i<?php echo $i; ?>dob_date' border='0' alt='[?]' style='cursor:pointer' title='<?php xl('Click here to choose a date','e'); ?>'></td>
+				<td>
+                    <input type='entry' size='11' id='i<?php echo $i?>subscriber_DOB' name='i<?php echo $i?>subscriber_DOB'
+                           value='<?php echo htmlspecialchars(oeFormatShortDate($result3['subscriber_DOB'])) ?>'/>
+                </td>
 
 				<td><span class=bold><?php xl('Sex','e'); ?>: </span></td>
 				<td><?php
@@ -738,7 +750,8 @@ $group_seq=0; // this gives the DIV blocks unique IDs
 </form>
 
 <br>
-
+<link rel="stylesheet" href="../../../library/css/jquery.datetimepicker.css">
+<script type="text/javascript" src="../../../library/js/jquery.datetimepicker.full.min.js"></script>
 <script language="JavaScript">
 
 // hard code validation for old validation, in the new validation possible to add match rules
@@ -759,14 +772,23 @@ $group_seq=0; // this gives the DIV blocks unique IDs
 <?php }?>
 
 <?php if ($GLOBALS['concurrent_layout'] && $set_pid) { ?>
- parent.left_nav.setPatient(<?php echo "'" . addslashes($result['fname']) . " " . addslashes($result['lname']) . "',$pid,'" . addslashes($result['pubpid']) . "','', ' " . xl('DOB') . ": " . oeFormatShortDate($result['DOB_YMD']) . " " . xl('Age') . ": " . getPatientAgeDisplay($result['DOB_YMD']) . "'"; ?>);
+ parent.left_nav.setPatient(<?php echo "'" . addslashes($result['fname']) . " " . addslashes($result['lname']) . "',$pid,'" . addslashes($result['pubpid']) . "','', ' " . xl('DOB') . ": " . htmlspecialchars(oeFormatShortDate($result['DOB_YMD'])) . " " . xl('Age') . ": " . getPatientAgeDisplay($result['DOB_YMD']) . "'"; ?>);
  parent.left_nav.setRadio(window.name, 'dem');
 <?php } ?>
 
 <?php echo $date_init; ?>
 <?php if (! $GLOBALS['simplified_demographics']) { for ($i=1; $i<=3; $i++): ?>
- Calendar.setup({inputField:"i<?php echo $i?>effective_date", ifFormat:"%Y-%m-%d", button:"img_i<?php echo $i?>effective_date"});
- Calendar.setup({inputField:"i<?php echo $i?>subscriber_DOB", ifFormat:"%Y-%m-%d", button:"img_i<?php echo $i?>dob_date"});
+ $(function() {
+     $("#i<?= $i?>effective_date").datetimepicker({
+         timepicker: false,
+         format: "<?= $DateFormat; ?>"
+     });
+     $("#i<?= $i?>subscriber_DOB").datetimepicker({
+         timepicker: false,
+         format: "<?= $DateFormat; ?>"
+     });
+     $.datetimepicker.setLocale('<?= $DateLocale;?>');
+ });
 <?php endfor; } ?>
 </script>
 

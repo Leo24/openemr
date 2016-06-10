@@ -23,7 +23,7 @@ ini_set('max_execution_time', '0');
 $ignoreAuth = true; // no login required
 
 //set de_identification_config to 1 to run the de_identification_upgrade script
-$de_identification_config = 0;
+$de_identification_config = 1;
 
 require_once('../../interface/globals.php');
 require_once('../../library/sql.inc');

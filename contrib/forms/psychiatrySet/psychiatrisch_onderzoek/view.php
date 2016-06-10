@@ -9,6 +9,11 @@
 include_once("../../globals.php");
 include_once("$srcdir/api.inc");
 include_once("$srcdir/patient.inc");
+require_once("$srcdir/formatting.inc.php");
+
+/** Current format date */
+$DateFormat = DateFormatRead();
+$DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
 
 $returnurl = $GLOBALS['concurrent_layout'] ? 'encounter_top.php' : 'patient_encounter.php';
 
@@ -67,8 +72,6 @@ if( $tmpDate && $tmpDate != '0000-00-00 00:00:00' ) $m_strEventDate = $tmpDate;
 
 <body <?php echo $top_bg_line;?> topmargin=0 rightmargin=0 leftmargin=2 bottommargin=0 marginwidth=2 marginheight=0>
 
-<style type="text/css">@import url(../../../library/dynarch_calendar.css);</style>
-
 <style type="text/css">
  body       { font-family:sans-serif; font-size:10pt; font-weight:normal }
   .dehead    { color:#000000; font-family:sans-serif; font-size:10pt; font-weight:bold;
@@ -76,15 +79,13 @@ if( $tmpDate && $tmpDate != '0000-00-00 00:00:00' ) $m_strEventDate = $tmpDate;
                  .detail    { color:#000000; font-family:sans-serif; font-size:10pt; font-weight:normal;
                                padding-left:3px; padding-right:3px; }
 </style>
-                               
-<style type="text/css">@import url(../../../library/dynarch_calendar.css);</style>
-<script type="text/javascript" src="../../../library/dialog.js"></script>
-<script type="text/javascript" src="../../../library/textformat.js"></script>
-<script type="text/javascript" src="../../../library/dynarch_calendar.js"></script>
-<script type="text/javascript" src="../../../library/dynarch_calendar_en.js"></script>
-<script type="text/javascript" src="../../../library/dynarch_calendar_setup.js"></script>
 
 <script type="text/javascript" src="<?php echo $GLOBALS['assets_static_relative']; ?>/jquery-min-1-2-1/index.js"></script>
+
+<script type="text/javascript" src="../../../../library/dialog.js"></script>
+<script type="text/javascript" src="../../../../library/textformat.js"></script>
+<script type="text/javascript" src="../../../../library/js/jquery-1.7.2.min.js"></script>
+
 
 <?php
 
@@ -180,13 +181,7 @@ include_once("$srcdir/api.inc");
 <table>
 <tr>
 <td><?php xl('Examination Date','e'); ?>:</td><td>
-<input type='text' name='datum_onderzoek' id='datum_onderzoek' size='10' value='<?php echo $m_strEventDate ?>'
-          onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='<?php xl('Examination Date','e'); ?>: yyyy-mm-dd'></input>
-<img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
-          id='img_last_encounter' border='0' alt='[?]' style='cursor:pointer'
-          title='<?php xl('Click here to choose a date','e'); ?>'>
-
-                     
+<input type='text' name='datum_onderzoek' id='datum_onderzoek' size='10' value='<?php echo $m_strEventDate ?>' title='<?php xl('Examination Date','e'); ?>: yyyy-mm-dd'>
 <?php 
 
 ?></td>
@@ -220,9 +215,16 @@ include_once("$srcdir/api.inc");
 <a href="<?php echo "$rootdir/patient_file/encounter/$returnurl";?>" class="link_submit"
  onclick="delete_autosave();top.restoreSession()">[<?php xl('Don\'t Save Changes','e'); ?>]</a>
 </form>
-
+<link rel="stylesheet" href="../../../../library/css/jquery.datetimepicker.css">
+<script type="text/javascript" src="../../../../library/js/jquery.datetimepicker.full.min.js"></script>
 <script language='JavaScript'>
- Calendar.setup({inputField:"datum_onderzoek", ifFormat:"%Y-%m-%d", button:"img_last_encounter"});
+    $(function() {
+        $("#datum_onderzoek").datetimepicker({
+            timepicker: false,
+            format: "<?= $DateFormat; ?>"
+        });
+        $.datetimepicker.setLocale('<?= $DateLocale;?>');
+    });
 </script>
 
 <div id="timestamp"></div>

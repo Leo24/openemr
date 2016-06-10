@@ -4,6 +4,12 @@ include_once ($depth.'interface/globals.php');
 include_once($depth.'library/formdata.inc.php');
 include_once ($depth.'library/classes/class.ezpdf.php');
 include_once("content_parser.php");
+require_once("$srcdir/formatting.inc.php");
+
+/** Current format date */
+$DateFormat = DateFormatRead();
+$DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
+
 ?>
 <?php
 if (!($_POST['submit_pdf'] || $_POST['submit_html']) && ($_GET['pid'] && $_GET['encounter'])) {
@@ -32,14 +38,12 @@ if (!$_POST['submit_pdf'] && !$_POST['submit_html'] && !($_GET['pid'] && $_GET['
 <title>
 <?php xl('Print Notes','e'); ?>
 </title>
-<style type="text/css">@import url('<?php echo $depth ?>library/dynarch_calendar.css');</style>
+<link rel="stylesheet" href="../../../library/css/jquery.datetimepicker.css">
+<script type="text/javascript" src="../../../library/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<?php echo $depth ?>library/dialog.js"></script>
 <script type="text/javascript" src="<?php echo $depth ?>library/textformat.js"></script>
-<script type="text/javascript" src="<?php echo $depth ?>library/dynarch_calendar.js"></script>
-<?php include_once("{$GLOBALS['srcdir']}/dynarch_calendar_en.inc.php"); ?>
-<script type="text/javascript" src="<?php echo $depth ?>library/dynarch_calendar_setup.js"></script>
+<script type="text/javascript" src="../../../library/js/jquery.datetimepicker.full.min.js"></script>
 </head>
-
 <body>
 <script language='JavaScript'> var mypcc = '1'; </script>
 
@@ -49,28 +53,31 @@ if (!$_POST['submit_pdf'] && !$_POST['submit_html'] && !($_GET['pid'] && $_GET['
 <tr><td>
 <span class='text'><?php xl('Start (yyyy-mm-dd): ','e') ?></span>
 </td><td>
-<input type='text' size='10' name='start' id='start' value='<?php echo $_POST['end'] ? $_POST['end'] : date('Y-m-d') ?>' 
-onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
+<input type='text' size='10' name='start' id='start' value='<?php echo $_POST['end'] ? $_POST['end'] : date('Y-m-d') ?>'
 title='<?php xl('yyyy-mm-dd last date of this event','e'); ?>' />
-<img src='<?php echo $depth ?>interface/pic/show_calendar.gif' align='absbottom' width='24' height='22'
-id='img_start' border='0' alt='[?]' style='cursor:pointer'
-title='<?php xl('Click here to choose a date','e'); ?>'>
 <script>
-Calendar.setup({inputField:'start', ifFormat:'%Y-%m-%d', button:'img_start'});
+	$(function() {
+		$("#start").datetimepicker({
+			timepicker: false,
+			format: "<?= $DateFormat; ?>"
+		});
+	});
 </script>
 </td></tr>
 
 <tr><td>
 <span class='text'><?php xl('End (yyyy-mm-dd): ','e') ?></span>
 </td><td>
-<input type='text' size='10' name='end' id='end' value ='<?php echo $_POST['end'] ? $_POST['end'] : date('Y-m-d') ?>' 
-onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
+<input type='text' size='10' name='end' id='end' value ='<?php echo $_POST['end'] ? $_POST['end'] : date('Y-m-d') ?>'
 title='<?php xl('yyyy-mm-dd last date of this event','e'); ?>' />
-<img src='<?php echo $depth ?>interface/pic/show_calendar.gif' align='absbottom' width='24' height='22'
-id='img_end' border='0' alt='[?]' style='cursor:pointer'
-title='<?php xl('Click here to choose a date','e'); ?>'>
 <script>
-Calendar.setup({inputField:'end', ifFormat:'%Y-%m-%d', button:'img_end'});
+	$(function() {
+		$("#end").datetimepicker({
+			timepicker: false,
+			format: "<?= $DateFormat; ?>"
+		});
+		$.datetimepicker.setLocale('<?= $DateLocale;?>');
+	});
 </script>
 </td></tr>
 <tr><td></td><td></td></tr>

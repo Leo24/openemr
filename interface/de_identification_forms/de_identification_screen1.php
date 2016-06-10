@@ -22,13 +22,16 @@ require_once("$srcdir/patient.inc");
 require_once("$srcdir/acl.inc");
 require_once("$srcdir/options.inc.php");
 require_once("$srcdir/translation.inc.php");
+require_once($GLOBALS['srcdir']."/formatting.inc.php");
+$DateFormat = DateFormatRead();
+$DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
+
 ?>
 
 <html>
 <head>
 <title><?php xl('De Identification','e'); ?></title>
 <link rel="stylesheet" href='<?php echo $css_header ?>' type='text/css'>
-<link rel="stylesheet" href='<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar.css' type='text/css'>
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dialog.js"></script>
 <style type="text/css">
 .style1 {
@@ -37,6 +40,7 @@ require_once("$srcdir/translation.inc.php");
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar.js"></script>
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar_en.js"></script>
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar_setup.js"></script>
+<script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/js/jquery-1.7.2.min.js"></script>
 <script language="JavaScript">
 //get value from popup window
 function set_related(s,type) {
@@ -437,12 +441,12 @@ function download_file()
 	<tr rowspan=2> 
 		<td>&nbsp;</td>
 		<td><span class="text"><?php xl('Begin Date','e'); ?></span>
-		<input type="text" size="10" name="begin_date" id="begin_date" value="<?php echo $viewmode ? substr($result['date'], 0, 10) : date('Y-m-d'); ?>" title="<?php xl('yyyy-mm-dd Date of service','e'); ?>" onkeyup="datekeyup(this,mypcc)" onblur="dateblur(this,mypcc)" />
-		<img src="../pic/show_calendar.gif" align="absbottom" width="24" height="22" id="img_begin_date" border="0" alt="[?]" style="cursor: pointer; cursor: hand" title="<?php xl('Click here to choose a date','e'); ?>">&nbsp;
+		<input type="text" size="10" name="begin_date" id="begin_date"
+               value="<?php echo $viewmode ? substr($result['date'], 0, 10) : date('Y-m-d'); ?>"/>&nbsp;
 		</td>
 		<td><span class="text"><?php xl('End Date','e'); ?></span>
-		<input type="text" size="10" name="end_date" id="end_date" value="<?php echo $viewmode ? substr($result['date'], 0, 10) : date('Y-m-d'); ?>" title="<?php xl('yyyy-mm-dd Date of service','e'); ?>" onkeyup="datekeyup(this,mypcc)" onblur="dateblur(this,mypcc)" />
-		<img src="../pic/show_calendar.gif" align="absbottom" width="24" height="22" id="img_end_date" border="0" alt="[?]" style="cursor: pointer; cursor: hand" title="<?php xl('Click here to choose a date','e'); ?>">
+		<input type="text" size="10" name="end_date" id="end_date"
+               value="<?php echo $viewmode ? substr($result['date'], 0, 10) : date('Y-m-d'); ?>"/>
 		</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>		
@@ -544,11 +548,21 @@ function download_file()
 		<input type="hidden" name="drug_text" id="drug_text"><br>
 		<input type="hidden" name="immunization_text" id="immunization_text">
 </table>
-<script language='JavaScript'>
-/* required for popup calendar */
-Calendar.setup({inputField:"begin_date", ifFormat:"%Y-%m-%d", button:"img_begin_date"});
-Calendar.setup({inputField:"end_date", ifFormat:"%Y-%m-%d", button:"img_end_date"});
-</script>		
+<link rel="stylesheet" href="../../library/css/jquery.datetimepicker.css">
+<script type="text/javascript" src="../../library/js/jquery.datetimepicker.full.min.js"></script>
+<script>
+ $(function() {
+     $("#begin_date").datetimepicker({
+         timepicker: false,
+         format: "<?= $DateFormat; ?>"
+     });
+     $("#end_date").datetimepicker({
+         timepicker: false,
+         format: "<?= $DateFormat; ?>"
+     });
+     $.datetimepicker.setLocale('<?= $DateLocale;?>');
+ });
+</script>
 	<?php	
 	}   
        }
