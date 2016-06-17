@@ -139,7 +139,7 @@ $DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
    "FROM openemr_postcalendar_events " .
    "WHERE pc_aid = '$providerid' AND " .
    "((pc_endDate >= '$sdate' AND pc_eventDate < '$edate') OR " .
-   "(pc_endDate = '0000-00-00' AND pc_eventDate >= '$sdate' AND pc_eventDate < '$edate'))";
+   "(pc_endDate = '1000-01-01' AND pc_eventDate >= '$sdate' AND pc_eventDate < '$edate'))";
   $res = sqlStatement($query);
 //  print_r($res);
 

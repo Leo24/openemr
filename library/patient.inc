@@ -955,6 +955,29 @@ function fixDate($date, $default="0000-00-00") {
     return $fixed_date;
 }
 
+function fixDateDefaultAmended($date, $default="1000-01-01") {
+    $fixed_date = $default;
+    $date = trim($date);
+    if (preg_match("'^[0-9]{1,4}[/.-][0-9]{1,2}[/.-][0-9]{1,4}$'", $date)) {
+        $dmy = preg_split("'[/.-]'", $date);
+        if ($dmy[0] > 99) {
+            $fixed_date = sprintf("%04u-%02u-%02u", $dmy[0], $dmy[1], $dmy[2]);
+        } else {
+            if ($dmy[0] != 0 || $dmy[1] != 0 || $dmy[2] != 0) {
+                if ($dmy[2] < 1000) $dmy[2] += 1900;
+                if ($dmy[2] < 1910) $dmy[2] += 100;
+            }
+            // phone_country_code indicates format of ambiguous input dates.
+            if ($GLOBALS['phone_country_code'] == 1)
+                $fixed_date = sprintf("%04u-%02u-%02u", $dmy[2], $dmy[0], $dmy[1]);
+            else
+                $fixed_date = sprintf("%04u-%02u-%02u", $dmy[2], $dmy[1], $dmy[0]);
+        }
+    }
+
+    return $fixed_date;
+}
+
 function pdValueOrNull($key, $value) {
   if (($key == 'DOB' || $key == 'regdate' || $key == 'contrastart' ||
     substr($key, 0, 8) == 'userdate') &&
@@ -1110,7 +1133,7 @@ function newInsuranceData(
   $subscriber_employer_country = "",
   $copay = "",
   $subscriber_sex = "",
-  $effective_date = "0000-00-00",
+  $effective_date = "1000-01-01",
   $accept_assignment = "TRUE",
   $policy_type = "")
 {

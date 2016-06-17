@@ -145,7 +145,7 @@ $DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
    "WHERE pc_aid = ? AND " .
    "pc_eid != ? AND " .
    "((pc_endDate >= ? AND pc_eventDate < ? ) OR " .
-   "(pc_endDate = '0000-00-00' AND pc_eventDate >= ? AND pc_eventDate < ?))";
+   "(pc_endDate = '1000-01-01' AND pc_eventDate >= ? AND pc_eventDate < ?))";
 
    array_push($sqlBindArray, $providerid, $eid, $sdate, $edate, $sdate, $edate);
 

@@ -219,7 +219,7 @@ if ($_POST['form_action'] == "duplicate" || $_POST['form_action'] == "save")
  {
     // the starting date of the event, pay attention with this value
     // when editing recurring events -- JRM Oct-08
-    $event_date = fixDate($_POST['form_date']);
+    $event_date = fixDateDefaultAmended($_POST['form_date']);
 
     // Compute start and end time strings to be saved.
     if ($_POST['form_allday']) {
@@ -365,7 +365,7 @@ if ($_POST['form_action'] == "save") {
                     // this event is forced to NOT REPEAT
                     $args['form_repeat'] = "0";
                     $args['recurrspec'] = $noRecurrspec;
-                    $args['form_enddate'] = "0000-00-00";
+                    $args['form_enddate'] = "1000-01-01";
                     $args['starttime'] = $starttime;
                     $args['endtime'] = $endtime;
                     $args['locationspec'] = $locationspec;
@@ -426,7 +426,7 @@ if ($_POST['form_action'] == "save") {
                 // oct-08 JRM
                 if ($_POST['form_date'] == $_POST['selected_date']) {
                     // user has NOT changed the start date of the event
-                    $event_date = fixDate($_POST['event_start_date']);
+                    $event_date = fixDateDefaultAmended($_POST['event_start_date']);
                 }
 
                 // this difference means that some providers were added
@@ -460,7 +460,7 @@ if ($_POST['form_action'] == "save") {
                         "pc_room = '" . add_escape_custom($_POST['form_room']) . "', " .
                         "pc_informant = '" . add_escape_custom($_SESSION['authUserID']) . "', " .
                         "pc_eventDate = '" . add_escape_custom($event_date) . "', " .
-                        "pc_endDate = '" . add_escape_custom(fixDate($_POST['form_enddate'])) . "', " .
+                        "pc_endDate = '" . add_escape_custom(fixDateDefaultAmended($_POST['form_enddate'])) . "', " .
                         "pc_duration = '" . add_escape_custom(($duration * 60)) . "', " .
                         "pc_recurrtype = '" . add_escape_custom($my_recurrtype) . "', " .
                         "pc_recurrspec = '" . add_escape_custom(serialize($recurrspec)) . "', " .
@@ -506,7 +506,7 @@ if ($_POST['form_action'] == "save") {
                 // this event is forced to NOT REPEAT
                 $args['form_repeat'] = "0";
                 $args['recurrspec'] = $noRecurrspec;
-                $args['form_enddate'] = "0000-00-00";
+                $args['form_enddate'] = "1000-01-01";
                 $args['starttime'] = $starttime;
                 $args['endtime'] = $endtime;
                 $args['locationspec'] = $locationspec;
@@ -537,7 +537,7 @@ if ($_POST['form_action'] == "save") {
     // oct-08 JRM
     if ($_POST['form_date'] == $_POST['selected_date']) {
         // user has NOT changed the start date of the event
-        $event_date = fixDate($_POST['event_start_date']);
+        $event_date = fixDateDefaultAmended($_POST['event_start_date']);
     }
 
                 // mod the SINGLE event or ALL EVENTS in a repeating series
@@ -552,7 +552,7 @@ if ($_POST['form_action'] == "save") {
                     "pc_room = '" . add_escape_custom($_POST['form_room']) . "', " .
                     "pc_informant = '" . add_escape_custom($_SESSION['authUserID']) . "', " .
                     "pc_eventDate = '" . add_escape_custom($event_date) . "', " .
-                    "pc_endDate = '" . add_escape_custom(fixDate($_POST['form_enddate'])) . "', " .
+                    "pc_endDate = '" . add_escape_custom(fixDateDefaultAmended($_POST['form_enddate'])) . "', " .
                     "pc_duration = '" . add_escape_custom(($duration * 60)) . "', " .
                     "pc_recurrtype = '" . add_escape_custom($my_recurrtype) . "', " .
                     "pc_recurrspec = '" . add_escape_custom(serialize($recurrspec)) . "', " .
@@ -1134,7 +1134,6 @@ $classpati='';
 		</ul>
 </th></tr>
 <tr><td colspan='10'>
-
 <table border='0' width='100%' bgcolor='#DDDDDD'>
     <tr>
         <td width='1%' nowrap>
@@ -1456,8 +1455,10 @@ generate_form_field(array('data_type'=>1,'field_id'=>'apptstatus','list_id'=>'ap
   <td nowrap id='tdrepeat2'><?php echo xlt('until'); ?>
   </td>
   <td nowrap>
-   <input type='text' size='10' name='form_enddate' id='form_enddate'
-          value='<?= date($DateFormat, strtotime(attr($row['pc_endDate'])));  ?>'/>
+   <input type='text' size='10' name='form_enddate' id='form_enddate' value='<?php echo attr($row['pc_endDate']) ?>' onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='<?php echo xla('yyyy-mm-dd last date of this event');?>' />
+   <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
+    id='img_enddate' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
+    title='<?php echo xla('Click here to choose a date');?>'>
 <?php
 if ($repeatexdate != "") {
     $tmptitle = "The following dates are excluded from the repeating series";
@@ -1510,6 +1511,9 @@ if ($repeatexdate != "") {
   </td>
   <td nowrap>
    <input type='text' size='10' name='form_dob' id='form_dob' />
+   <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
+    id='img_dob' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
+    title='<?php echo xla('Click here to choose a date');?>'>
   </td>
  </tr>
 

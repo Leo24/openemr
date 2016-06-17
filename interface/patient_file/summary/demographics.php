@@ -384,6 +384,105 @@ function sendimage(pid, what) {
             $("#vitals_ps_expand").load("vitals_fragment.php");
             <?php } ?>
 
+        $(document).ready(function () {
+            var msg_updation = '';
+            <?php
+            if($GLOBALS['erx_enable']){
+                //$soap_status=sqlQuery("select soap_import_status from patient_data where pid=?",array($pid));
+                $soap_status=sqlStatement("select soap_import_status,pid from patient_data where pid=? and soap_import_status in ('1','3')",array($pid));
+                while($row_soapstatus=sqlFetchArray($soap_status)){
+                    //if($soap_status['soap_import_status']=='1' || $soap_status['soap_import_status']=='3'){ ?>
+            top.restoreSession();
+            $.ajax({
+                type: "POST",
+                url: "../../soap_functions/soap_patientfullmedication.php",
+                dataType: "html",
+                data: {
+                    patient:<?php echo $row_soapstatus['pid']; ?>,
+                },
+                async: false,
+                success: function (thedata) {
+                    //alert(thedata);
+                    msg_updation += thedata;
+                },
+                error: function () {
+                    alert('ajax error');
+                }
+            });
+            <?php
+            //}
+            //elseif($soap_status['soap_import_status']=='3'){ ?>
+            top.restoreSession();
+            $.ajax({
+                type: "POST",
+                url: "../../soap_functions/soap_allergy.php",
+                dataType: "html",
+                data: {
+                    patient:<?php echo $row_soapstatus['pid']; ?>,
+                },
+                async: false,
+                success: function (thedata) {
+                    //alert(thedata);
+                    msg_updation += thedata;
+                },
+                error: function () {
+                    alert('ajax error');
+                }
+            });
+            <?php
+            if($GLOBALS['erx_import_status_message']){ ?>
+            if (msg_updation)
+                alert(msg_updation);
+            <?php
+            }
+            //}
+        }
+    }
+    ?>
+            // load divs
+            $("#stats_div").load("stats.php", {'embeddedScreen': true}, function () {
+                // (note need to place javascript code here also to get the dynamic link to work)
+                $(".rx_modal").fancybox({
+                    'overlayOpacity': 0.0,
+                    'showCloseButton': true,
+                    'frameHeight': 500,
+                    'frameWidth': 800,
+                    'centerOnScroll': false,
+                    'callbackOnClose': function () {
+                        refreshme();
+                    }
+                });
+            });
+            $("#pnotes_ps_expand").load("pnotes_fragment.php");
+            $("#disclosures_ps_expand").load("disc_fragment.php");
+
+            <?php if ($GLOBALS['enable_cdr'] && $GLOBALS['enable_cdr_crw']) { ?>
+            top.restoreSession();
+            $("#clinical_reminders_ps_expand").load("clinical_reminders_fragment.php", {'embeddedScreen': true}, function () {
+                // (note need to place javascript code here also to get the dynamic link to work)
+                $(".medium_modal").fancybox({
+                    'overlayOpacity': 0.0,
+                    'showCloseButton': true,
+                    'frameHeight': 500,
+                    'frameWidth': 800,
+                    'centerOnScroll': false,
+                    'callbackOnClose': function () {
+                        refreshme();
+                    }
+                });
+            });
+            <?php } // end crw?>
+
+            <?php if ($GLOBALS['enable_cdr'] && $GLOBALS['enable_cdr_prw']) { ?>
+            top.restoreSession();
+            $("#patient_reminders_ps_expand").load("patient_reminders_fragment.php");
+            <?php } // end prw?>
+
+            <?php if ($vitals_is_registered && acl_check('patients', 'med')) { ?>
+            // Initialize the Vitals form if it is registered and user is authorized.
+            $("#vitals_ps_expand").load("vitals_fragment.php");
+            <?php } ?>
+
             // Initialize track_anything
             $("#track_anything_ps_expand").load("track_anything_fragment.php");
 
@@ -523,7 +622,6 @@ function sendimage(pid, what) {
 <?php
 $thisauth = acl_check('patients', 'demo');
 if ($thisauth) {
-
     if ($result['squad'] && ! acl_check('squads', $result['squad'])) {
         $thisauth = 0;
     }
@@ -673,37 +771,38 @@ if ($GLOBALS['patient_id_category_name']) {
 <?php
 	$module_query = sqlStatement("SELECT msh.*,ms.menu_name,ms.path,m.mod_ui_name,m.type FROM modules_hooks_settings AS msh
 					LEFT OUTER JOIN modules_settings AS ms ON obj_name=enabled_hooks AND ms.mod_id=msh.mod_id
-					LEFT OUTER JOIN modules AS m ON m.mod_id=ms.mod_id
+					LEFT OUTER JOIN modules AS m ON m.mod_id=ms.mod_id 
 					WHERE fld_type=3 AND mod_active=1 AND sql_run=1 AND attached_to='demographics' ORDER BY mod_id");
-            $DivId = 'mod_installer';
-            if (sqlNumRows($module_query)) {
-                $jid = 0;
-                $modid = '';
-                while ($modulerow = sqlFetchArray($module_query)) {
-                    $DivId = 'mod_' . $modulerow['mod_id'];
-                    $new_category = $modulerow['mod_ui_name'];
-                    $modulePath = "";
-                    $added = "";
-                    if ($modulerow['type'] == 0) {
-                        $modulePath = $GLOBALS['customModDir'];
-                        $added = "";
-                    } else {
-                        $added = "index";
-                        $modulePath = $GLOBALS['zendModDir'];
-                    }
-                    $relative_link = "../../modules/" . $modulePath . "/" . $modulerow['path'];
-                    $nickname = $modulerow['menu_name'] ? $modulerow['menu_name'] : 'Noname';
-                    $jid++;
-                    $modid = $modulerow['mod_id'];
-                    ?>
-                    |
-                    <a href="<?php echo $relative_link; ?>" onclick='top.restoreSession()'>
-                        <?php echo htmlspecialchars($nickname, ENT_NOQUOTES); ?></a>
-                    <?php
-                }
-            }
-            ?>
-            <!-- DISPLAYING HOOKS ENDS HERE -->
+	$DivId = 'mod_installer';
+	if (sqlNumRows($module_query)) {
+		$jid 	= 0;
+		$modid 	= '';
+		while ($modulerow = sqlFetchArray($module_query)) {
+			$DivId 		= 'mod_'.$modulerow['mod_id'];
+			$new_category 	= $modulerow['mod_ui_name'];
+			$modulePath 	= "";
+			$added      	= "";
+			if($modulerow['type'] == 0) {
+				$modulePath 	= $GLOBALS['customModDir'];
+				$added		= "";
+			}
+			else{ 	
+				$added		= "index";
+				$modulePath 	= $GLOBALS['zendModDir'];
+			}
+			$relative_link 	= "../../modules/".$modulePath."/".$modulerow['path'];
+			$nickname 	= $modulerow['menu_name'] ? $modulerow['menu_name'] : 'Noname';
+			$jid++;
+			$modid = $modulerow['mod_id'];			
+			?>
+			|
+			<a href="<?php echo $relative_link; ?>" onclick='top.restoreSession()'>
+			<?php echo htmlspecialchars($nickname,ENT_NOQUOTES); ?></a>
+		<?php	
+		}
+	}
+	?>
+<!-- DISPLAYING HOOKS ENDS HERE -->
 
         </td>
     </tr>
@@ -829,7 +928,22 @@ foreach (array('primary','secondary','tertiary') as $instype) {
     if ($row['provider'] ) $insurance_count++;
   }
 }
-?>
+
+<tr>
+    <td>
+        <?php
+        $insurance_count = 0;
+        foreach (array('primary','secondary','tertiary') as $instype) {
+            $enddate = 'Present';
+            $query = "SELECT * FROM insurance_data WHERE " .
+                "pid = ? AND type = ? " .
+                "ORDER BY date DESC";
+            $res = sqlStatement($query, array($pid, $instype) );
+            while( $row = sqlFetchArray($res) ) {
+                if ($row['provider'] ) $insurance_count++;
+            }
+        }
+        ?>
 <tr>
     <td>
         <?php
@@ -844,6 +958,56 @@ foreach (array('primary','secondary','tertiary') as $instype) {
                 if ($row['provider']) $insurance_count++;
             }
         }
+
+        if ($insurance_count > 0) {
+            // Insurance expand collapse widget
+            $widgetTitle = xl("Insurance");
+            $widgetLabel = "insurance";
+            $widgetButtonLabel = xl("Edit");
+            $widgetButtonLink = "demographics_full.php";
+            $widgetButtonClass = "";
+            $linkMethod = "html";
+            $bodyClass = "";
+            $widgetAuth = acl_check('patients', 'demo', '', 'write');
+            $fixedWidth = true;
+            expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel,
+                $widgetButtonLink, $widgetButtonClass, $linkMethod, $bodyClass,
+                $widgetAuth, $fixedWidth);
+
+            if ($insurance_count > 0) {
+                ?>
+
+                <ul class="tabNav"><?php
+                ///////////////////////////////// INSURANCE SECTION
+                $first = true;
+                foreach (array('primary', 'secondary', 'tertiary') as $instype) {
+
+                    $query = "SELECT * FROM insurance_data WHERE " .
+                        "pid = ? AND type = ? " .
+                        "ORDER BY date DESC";
+                    $res = sqlStatement($query, array($pid, $instype));
+
+                    $enddate = 'Present';
+
+                    while ($row = sqlFetchArray($res)) {
+                        if ($row['provider']) {
+
+                            $ins_description = ucfirst($instype);
+                            $ins_description = xl($ins_description);
+                            $ins_description .= strcmp($enddate, 'Present') != 0 ? " (" . xl('Old') . ")" : "";
+                            ?>
+                            <li <?php echo $first ? 'class="current"' : '' ?>><a
+                                    href="/play/javascript-tabbed-navigation/">
+                                    <?php echo htmlspecialchars($ins_description, ENT_NOQUOTES); ?></a></li>
+                            <?php
+                            $first = false;
+                        }
+                        $enddate = $row['date'];
+                    }
+                }
+                // Display the eligibility tab
+                echo "<li><a href='/play/javascript-tabbed-navigation/'>" .
+                    htmlspecialchars(xl('Eligibility'), ENT_NOQUOTES) . "</a></li>";
 
         if ($insurance_count > 0) {
             // Insurance expand collapse widget
@@ -1602,6 +1766,79 @@ while ($gfrow = sqlFetchArray($gfres)) {
     <br/>
 </div>
 
+
+                // Show PAST appointments.
+                // added by Terry Hill to allow reverse sorting of the appointments
+                $direction = "ASC";
+                if ($GLOBALS['num_past_appointments_to_show'] < 0) {
+                    $direction = "DESC";
+                    ($showpast = -1 * $GLOBALS['num_past_appointments_to_show']);
+                } else {
+                    $showpast = $GLOBALS['num_past_appointments_to_show'];
+                }
+
+                if (isset($pid) && !$GLOBALS['disable_calendar'] && $showpast > 0) {
+                    $query = "SELECT e.pc_eid, e.pc_aid, e.pc_title, e.pc_eventDate, " .
+                        "e.pc_startTime, e.pc_hometext, u.fname, u.lname, u.mname, " .
+                        "c.pc_catname, e.pc_apptstatus " .
+                        "FROM openemr_postcalendar_events AS e, users AS u, " .
+                        "openemr_postcalendar_categories AS c WHERE " .
+                        "e.pc_pid = ? AND e.pc_eventDate < CURRENT_DATE AND " .
+                        "u.id = e.pc_aid AND e.pc_catid = c.pc_catid " .
+                        "ORDER BY e.pc_eventDate $direction , e.pc_startTime DESC " .
+                        "LIMIT " . $showpast;
+
+                    $pres = sqlStatement($query, array($pid));
+
+                    // appointments expand collapse widget
+                    $widgetTitle = xl("Past Appoinments");
+                    $widgetLabel = "past_appointments";
+                    $widgetButtonLabel = '';
+                    $widgetButtonLink = '';
+                    $widgetButtonClass = '';
+                    $linkMethod = "javascript";
+                    $bodyClass = "summary_item small";
+                    $widgetAuth = false; //no button
+                    $fixedWidth = false;
+                    expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel, $widgetButtonLink, $widgetButtonClass, $linkMethod, $bodyClass, $widgetAuth, $fixedWidth);
+                    $count = 0;
+                    while ($row = sqlFetchArray($pres)) {
+                        $count++;
+                        $dayname = date("l", strtotime($row['pc_eventDate']));
+                        $dispampm = "am";
+                        $disphour = substr($row['pc_startTime'], 0, 2) + 0;
+                        $dispmin = substr($row['pc_startTime'], 3, 2);
+                        if ($disphour >= 12) {
+                            $dispampm = "pm";
+                            if ($disphour > 12) $disphour -= 12;
+                        }
+                        if ($row['pc_hometext'] != "") {
+                            $etitle = xl('Comments') . ": " . ($row['pc_hometext']) . "\r\n" . $etitle;
+                        }
+                        echo "<a href='javascript:oldEvt(" . htmlspecialchars($row['pc_eid'], ENT_QUOTES) . ")' title='" . htmlspecialchars($etitle, ENT_QUOTES) . "'>";
+                        echo "<b>" . htmlspecialchars(xl($dayname) . ", " . $row['pc_eventDate'], ENT_NOQUOTES) . "</b>" . xlt("Status") . "(";
+                        echo " " . generate_display_field(array('data_type' => '1', 'list_id' => 'apptstat'), $row['pc_apptstatus']) . ")<br>";   // can't use special char parser on this
+                        echo htmlspecialchars("$disphour:$dispmin ") . xl($dispampm) . " ";
+                        echo htmlspecialchars($row['fname'] . " " . $row['lname'], ENT_NOQUOTES) . "</a><br>\n";
+                    }
+                    if (isset($pres) && $res != null) {
+                        if ($count < 1) {
+                            echo "&nbsp;&nbsp;" . htmlspecialchars(xl('None'), ENT_NOQUOTES);
+                        }
+                        echo "</div>";
+                    }
+                }
+                // END of past appointments
+
+                ?>
+</div>
+
+<div id='stats_div'>
+    <br/>
+
+    <div style='margin-left:10px' class='text'><img src='../../pic/ajax-loader.gif'/></div>
+    <br/>
+</div>
 <div>
  <?php
     // Advance Directives
@@ -1871,10 +2108,38 @@ while ($gfrow = sqlFetchArray($gfres)) {
     }
 // END of past appointments            
             
+<?php // TRACK ANYTHING -----
+
+// Determine if track_anything form is in use for this site.
+$tmp = sqlQuery("SELECT count(*) AS count FROM registry WHERE " .
+    "directory = 'track_anything' AND state = 1");
+$track_is_registered = $tmp['count'];
+if($track_is_registered){
+    echo "<tr> <td>";
+    // track_anything expand collapse widget
+    $widgetTitle = xl("Tracks");
+    $widgetLabel = "track_anything";
+    $widgetButtonLabel = xl("Tracks");
+    $widgetButtonLink = "../../forms/track_anything/create.php";
+    $widgetButtonClass = "";
+    $widgetAuth = "";  // don't show the button
+    $linkMethod = "html";
+    $bodyClass = "notab";
+    // check to see if any tracks exist
+    $spruch = "SELECT id " .
+        "FROM forms " .
+        "WHERE pid = ? " .
+        "AND formdir = ? ";
+    $existTracks = sqlQuery($spruch, array($pid, "track_anything") );
+
+    $fixedWidth = false;
+    expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel,
+        $widgetButtonLink, $widgetButtonClass, $linkMethod, $bodyClass,
+        $widgetAuth, $fixedWidth);
 			?>
 		</div>
 
-<?php // TRACK ANYTHING -----
+           <?php // TRACK ANYTHING -----
 
 // Determine if track_anything form is in use for this site.
 $tmp = sqlQuery("SELECT count(*) AS count FROM registry WHERE " .

@@ -730,7 +730,7 @@ function postcalendar_userapi_eventPreview($args)
  */
 function &postcalendar_userapi_pcQueryEventsFA($args)	{
 
-  $end = '0000-00-00';
+  $end = '1000-01-01';
   extract($args);
   $eventstatus = 1;
   if (is_numeric($event_status))
@@ -762,7 +762,7 @@ function &postcalendar_userapi_pcQueryEventsFA($args)	{
     "LEFT JOIN users as u2 ON a.pc_aid = u2.id " .
     "LEFT JOIN patient_data as pd ON a.pc_pid=pd.pid " .
     "WHERE a.pc_eventstatus = $eventstatus " .
-    "AND (a.pc_endDate >= '$start' OR a.pc_endDate = '0000-00-00') " .
+    "AND (a.pc_endDate >= '$start' OR a.pc_endDate = '1000-01-01') " .
     "AND a.pc_eventDate <= '$end' " .
     "AND (a.pc_aid = '" . $provider_id . "' OR a.pc_aid = '')";
 
@@ -940,7 +940,7 @@ function &postcalendar_userapi_pcQueryEventsFA($args)	{
  */
 function &postcalendar_userapi_pcQueryEvents($args)
 {
-  $end = '0000-00-00';
+  $end = '1000-01-01';
   extract($args);
 
   // echo "<!-- args = "; print_r($args); echo " -->\n"; // debugging
@@ -994,7 +994,7 @@ function &postcalendar_userapi_pcQueryEvents($args)
     "LEFT JOIN patient_data as pd ON a.pc_pid = pd.pid " .
     "WHERE  a.pc_eventstatus = $eventstatus " .
     "AND ((a.pc_endDate >= '$start' AND a.pc_eventDate <= '$end') OR " .
-    "(a.pc_endDate = '0000-00-00' AND a.pc_eventDate >= '$start' AND " .
+    "(a.pc_endDate = '1000-01-01' AND a.pc_eventDate >= '$start' AND " .
     "a.pc_eventDate <= '$end')) ";
 
   //==================================
@@ -1324,7 +1324,7 @@ function calculateEvents($days,$events,$viewtype) {
     $event_recurrspec = @unserialize($event['recurrspec']);
 
     // determine the stop date for this event
-    if($event['endDate'] == '0000-00-00') {
+    if($event['endDate'] == '1000-01-01') {
       $stop = $end_date;  // <--- this isn't previously defined !!
     } else {
       $stop = $event['endDate'];

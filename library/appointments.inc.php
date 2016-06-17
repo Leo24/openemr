@@ -172,7 +172,7 @@ function fetchEvents( $from_date, $to_date, $where_param = null, $orderby_param 
 
             if ($excluded == false) {
               $event['pc_eventDate'] = $occurance;
-              $event['pc_endDate'] = '0000-00-00';
+              $event['pc_endDate'] = '1000-01-01';
               $events2[] = $event;
               //////
               if ($nextX) {
@@ -238,7 +238,7 @@ function fetchEvents( $from_date, $to_date, $where_param = null, $orderby_param 
             if ($excluded == false) {
 
               $event['pc_eventDate'] = $occurance;
-              $event['pc_endDate'] = '0000-00-00';
+              $event['pc_endDate'] = '1000-01-01';
               $events2[] = $event;
               //////
               if($nextX) {

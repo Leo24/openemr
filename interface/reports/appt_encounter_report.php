@@ -82,11 +82,11 @@ function postError($msg) {
  }
 
  $form_facility  = isset($_POST['form_facility']) ? $_POST['form_facility'] : '';
- $form_from_date = fixDate($_POST['form_from_date'], date('Y-m-d'));
- $form_to_date = fixDate($_POST['form_to_date'], date('Y-m-d'));
+ $form_from_date = fixDateDefaultAmended($_POST['form_from_date'], date('Y-m-d'));
+ $form_to_date = fixDateDefaultAmended($_POST['form_to_date'], date('Y-m-d'));
  if ($_POST['form_refresh']) {
-  $form_from_date = fixDate($_POST['form_from_date'], date('Y-m-d'));
-  $form_to_date = fixDate($_POST['form_to_date'], "");
+  $form_from_date = fixDateDefaultAmended($_POST['form_from_date'], date('Y-m-d'));
+  $form_to_date = fixDateDefaultAmended($_POST['form_to_date'], "");
 
   // MySQL doesn't grok full outer joins so we do it the hard way.
   //

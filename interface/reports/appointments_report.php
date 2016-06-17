@@ -39,8 +39,8 @@ if ($patient && ! $_POST['form_from_date']) {
 	$tmp = date('Y') - 2;
 	$from_date = date("$tmp-m-d");
 } else {
-	$from_date = fixDate($_POST['form_from_date'], date('Y-m-d'));
-	$to_date = fixDate($_POST['form_to_date'], date('Y-m-d'));
+	$from_date = fixDateDefaultAmended($_POST['form_from_date'], date('Y-m-d'));
+	$to_date = fixDateDefaultAmended($_POST['form_to_date'], date('Y-m-d'));
 }
 
 $show_available_times = false;
