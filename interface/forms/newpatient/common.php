@@ -284,7 +284,7 @@ if ($fres) {
       <input type='text' size='10' name='form_date' id='form_date' <?php echo $disabled ?>
        value='<?php echo $viewmode ? substr($result['date'], 0, 10) : date('Y-m-d'); ?>'
        title='<?php echo xla('yyyy-mm-dd Date of service'); ?>'
-       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly/>
         <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
         id='img_form_date' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
         title='<?php echo xla('Click here to choose a date'); ?>'>
@@ -297,7 +297,7 @@ if ($fres) {
       <input type='text' size='10' name='form_onset_date' id='form_onset_date'
        value='<?php echo $viewmode && $result['onset_date']!='0000-00-00 00:00:00' ? substr($result['onset_date'], 0, 10) : ''; ?>' 
        title='<?php echo xla('yyyy-mm-dd Date of onset or hospitalization'); ?>'
-       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly/>
         <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
         id='img_form_onset_date' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
         title='<?php echo xla('Click here to choose a date'); ?>'>

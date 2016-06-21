@@ -98,8 +98,8 @@ echo "<form method='post' name='my_form' " .
 		<td class="forms">
 			   <input type='text' size='10' name='admit_date' id='admission_date' <?php echo attr($disabled); ?>;
 			   value='<?php echo attr($obj{"admit_date"}); ?>'   
-			   title='<?php echo xla('yyyy-mm-dd Date of service'); ?>'
-       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+			   title='<?php echo xla('yyyy-mm-dd Date of service'); ?> '
+       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly />
         <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
         id='img_admission_date' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
         title='<?php echo xla('Click here to choose a date'); ?>'>

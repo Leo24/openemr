@@ -198,7 +198,7 @@ function formValidation() {
 			<td><span class=text ><?php echo xlt('Requested Date'); ?></span></td>
 			<td ><input type='text' size='10' name="amendment_date" id="amendment_date" readonly 
 						value='<?php echo $amendment_date ? htmlspecialchars( oeFormatShortDate($amendment_date), ENT_QUOTES) : oeFormatShortDate(); ?>'
-    		/>
+						readonly />
 			<?php if ( ! $onlyRead ) { ?>
          	<img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' width='24' height='22'
     			id='img_amendment_date' valign="middle" border='0' alt='[?]' style='cursor:pointer;cursor:hand'

@@ -690,7 +690,7 @@ function divclick(cb, divid) {
    <input type='text' size='10' name='form_begin' id='form_begin'
     value='<?php echo attr($irow['begdate']) ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-    title='<?php echo xla('yyyy-mm-dd date of onset, surgery or start of medication'); ?>' />
+    title='<?php echo xla('yyyy-mm-dd date of onset, surgery or start of medication'); ?>' readonly/>
    <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_begin' border='0' alt='[?]' style='cursor:pointer'
     title='<?php echo xla('Click here to choose a date'); ?>' />
@@ -703,7 +703,7 @@ function divclick(cb, divid) {
    <input type='text' size='10' name='form_end' id='form_end'
     value='<?php echo attr($irow['enddate']) ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-    title='<?php echo xla('yyyy-mm-dd date of recovery or end of medication'); ?>' />
+    title='<?php echo xla('yyyy-mm-dd date of recovery or end of medication'); ?>' readonly/>
    <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_end' border='0' alt='[?]' style='cursor:pointer'
     title='<?php echo xla('Click here to choose a date'); ?>' />

@@ -160,7 +160,7 @@ $display_collapse_msg = "display:inline;";
 		<tr>
 			<td scope="row" class='label'><?php echo xlt('From'); ?>:</td>
 			<td><input type='text' name='form_from_doc_date' id="form_from_doc_date"
-				size='10' value='<?php echo attr($form_from_doc_date) ?>' readonly="readonly" title='<?php echo attr($title_tooltip) ?>'> 
+				size='10' value='<?php echo attr($form_from_doc_date) ?>' readonly="readonly" title='<?php echo attr($title_tooltip) ?>' readonly>
 				<img alt="<?php echo xla("Date Selector"); ?>" src='../pic/show_calendar.gif' align='absbottom' width='24' height='22' id='img_from_doc_date'
 				border='0' alt='[?]' style='cursor: pointer' title='<?php echo xla('Click here to choose a date'); ?>'></td>
 			<script>
@@ -168,7 +168,7 @@ $display_collapse_msg = "display:inline;";
 			</script>
 			<td class='label'><?php echo xlt('To'); ?>:</td>
 			<td><input type='text' name='form_to_doc_date' id="form_to_doc_date"
-				size='10' value='<?php echo attr($form_to_doc_date) ?>' readonly="readonly" title='<?php echo attr($title_tooltip) ?>'> 
+				size='10' value='<?php echo attr($form_to_doc_date) ?>' readonly="readonly" title='<?php echo attr($title_tooltip) ?>' readonly>
 				<img alt="<?php xla("Date Selector"); ?>" src='../pic/show_calendar.gif' align='absbottom' width='24' height='22' id='img_to_doc_date'
 				border='0' alt='[?]' style='cursor: pointer' title='<?php echo xla('Click here to choose a date'); ?>'></td> 
 			<script>

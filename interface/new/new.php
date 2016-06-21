@@ -193,7 +193,7 @@ while ($orow = sqlFetchArray($ores)) {
    <input type='text' size='10' name='DOB' id='DOB'
     value='<?php echo $form_dob; ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-    title='yyyy-mm-dd' />
+    title='yyyy-mm-dd' readonly/>
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_dob' border='0' alt='[?]' style='cursor:pointer'
     title='Click here to choose a date'>
@@ -211,7 +211,7 @@ while ($orow = sqlFetchArray($ores)) {
    <input type='text' size='10' name='regdate' id='regdate'
     value='<?php echo $form_regdate; ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-    title='yyyy-mm-dd' />
+    title='yyyy-mm-dd' readonly/>
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_regdate' border='0' alt='[?]' style='cursor:pointer'
     title='Click here to choose a date'>

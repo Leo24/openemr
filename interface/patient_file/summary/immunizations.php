@@ -396,7 +396,7 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
        <td><input type='text' size='14' name="administered_date" id="administered_date"
     		value='<?php echo $administered_date ? htmlspecialchars( $administered_date, ENT_QUOTES) : date('Y-m-d H:i'); ?>'
     		title='<?php echo htmlspecialchars( xl('yyyy-mm-dd Hours(24):minutes'), ENT_QUOTES); ?>'
-    		onKeyUp='datekeyup(this,mypcc)' onBlur='dateblur(this,mypcc);'
+    		onKeyUp='datekeyup(this,mypcc)' onBlur='dateblur(this,mypcc);' readonly
     		/>
          	<img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22'
     			id='img_administered_date' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
@@ -417,7 +417,7 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
           <td class='text'><input type='text' size='10' name="immuniz_exp_date" id="immuniz_exp_date"
     value='<?php echo $immuniz_exp_date ? htmlspecialchars( $immuniz_exp_date, ENT_QUOTES) : ''; ?>'
     title='<?php echo htmlspecialchars( xl('yyyy-mm-dd'), ENT_QUOTES); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);'
+    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);' readonly
     />
           <img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_immuniz_exp_date' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
@@ -468,7 +468,7 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
             <input type='text' size='10' name="education_date" id="education_date"
                     value='<?php echo $education_date? htmlspecialchars( $education_date, ENT_QUOTES) : date('Y-m-d'); ?>'
                     title='<?php echo htmlspecialchars( xl('yyyy-mm-dd'), ENT_QUOTES); ?>'
-                    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);'
+                    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);' readonly
             />
             <img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22'
                 id='img_education_date' border='0' alt='[?]' style='cursor:pointer;'
@@ -483,7 +483,7 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
             <input type='text' size='10' name="vis_date" id="vis_date"
                     value='<?php echo $vis_date ? htmlspecialchars( $vis_date, ENT_QUOTES) : date('Y-m-d'); ?>'
                     title='<?php echo htmlspecialchars( xl('yyyy-mm-dd'), ENT_QUOTES); ?>'
-                    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);'
+                    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);' readonly
             />
             <img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22'
                 id='img_vis_date' border='0' alt='[?]' style='cursor:pointer;'
@@ -690,7 +690,7 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
                           <?php 
                             $vis_published_dateval = $value['imo_vis_date_published'] ? htmlspecialchars( $value['imo_vis_date_published'], ENT_QUOTES) : '';
                           ?>
-                          <input type="text" name="vis_published_date[]" value="<?php if($id != 0 && $vis_published_dateval != 0) echo attr($vis_published_dateval);?>" id="vis_published_date_1"  autocomplete="off" onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);' style="width:140px">
+                          <input type="text" name="vis_published_date[]" value="<?php if($id != 0 && $vis_published_dateval != 0) echo attr($vis_published_dateval);?>" id="vis_published_date_1"  autocomplete="off" onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);' style="width:140px"> readonly
                           <img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22' id='img_immuniz_vis_date_published_1' border='0' alt='[?]' style='cursor:pointer;cursor:hand' title='<?php echo htmlspecialchars( xl('Click here to choose a date'), ENT_QUOTES); ?>'>
                         </td>
                         <td <?php if($value['imo_criteria'] != 'vaccine_type' || $id == 0) { ?> style="display: none;" <?php } ?> class="vis_presented_date_td" id="vis_presented_date_td_1">
@@ -698,7 +698,7 @@ var mypcc = '<?php echo htmlspecialchars( $GLOBALS['phone_country_code'], ENT_QU
                           <?php 
                             $vis_presented_dateval = $value['imo_vis_date_presented'] ?htmlspecialchars( $value['imo_vis_date_presented'], ENT_QUOTES) : '';
                           ?>
-                          <input type="text" name="vis_presented_date[]" value="<?php if($id != 0 && $vis_presented_dateval !=0) echo attr($vis_presented_dateval);?>" id="vis_presented_date_1" autocomplete="off" onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);' style="width:140px">
+                          <input type="text" name="vis_presented_date[]" value="<?php if($id != 0 && $vis_presented_dateval !=0) echo attr($vis_presented_dateval);?>" id="vis_presented_date_1" autocomplete="off" onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);' style="width:140px"> readonly
                           <img src='<?php echo $rootdir; ?>/pic/show_calendar.gif' align='absbottom' width='24' height='22' id='img_immuniz_vis_date_presented_1' border='0' alt='[?]' style='cursor:pointer;cursor:hand' title='<?php echo htmlspecialchars( xl('Click here to choose a date'), ENT_QUOTES); ?>'>
                         </td>
                       </tr>

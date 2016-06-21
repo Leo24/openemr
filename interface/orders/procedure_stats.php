@@ -328,13 +328,13 @@ function process_result_code($row) {
      <td colspan='2' class='detail' nowrap>
       <?php xl('From','e'); ?>
       <input type='text' name='form_from_date' id='form_from_date' size='10' value='<?php echo $from_date ?>'
-       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='Start date yyyy-mm-dd'>
+       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='Start date yyyy-mm-dd' readonly>
       <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
        id='img_from_date' border='0' alt='[?]' style='cursor:pointer'
        title='<?php xl('Click here to choose a date','e'); ?>'>
       <?php xl('To','e'); ?>
       <input type='text' name='form_to_date' id='form_to_date' size='10' value='<?php echo $to_date ?>'
-       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='End date yyyy-mm-dd'>
+       onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='End date yyyy-mm-dd' readonly>
       <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
        id='img_to_date' border='0' alt='[?]' style='cursor:pointer'
        title='<?php xl('Click here to choose a date','e'); ?>'>

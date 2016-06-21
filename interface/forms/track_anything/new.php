@@ -198,7 +198,7 @@ if ($formid){
              "value='" . attr(date('Y-m-d H:i:s', time())) . "'" .
              "onkeyup='datekeyup(this,mypcc,true)' onblur='dateblur(this,mypcc,true)' />" .
              "<img src='" . $rootdir . "/pic/show_calendar.gif' id='img_date' align='absbottom'" .
-             "width='24' height='22' border='0' alt='[?]' style='cursor:pointer' /></td></tr>";
+             "width='24' height='22' border='0' alt='[?]' style='cursor:pointer' readonly/></td></tr>";
         ?>
         <script language="javascript">
         Calendar.setup({inputField:"datetime", ifFormat:"%Y-%m-%d %H:%M:%S", button:"img_date", showsTime:true});

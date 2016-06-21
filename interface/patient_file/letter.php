@@ -443,7 +443,7 @@ function insertAtCursor(myField, myValue) {
    <input type='text' size='10' name='form_date' id='form_date'
     value='<?php echo date('Y-m-d'); ?>'
     title='<?php xl('yyyy-mm-dd date of this letter','e'); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly/>
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_date' border='0' alt='[?]' style='cursor:pointer'
     title='<?php xl('Click here to choose a date','e'); ?>' />

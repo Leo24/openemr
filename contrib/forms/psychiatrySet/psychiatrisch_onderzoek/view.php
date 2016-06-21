@@ -180,7 +180,7 @@ include_once("$srcdir/api.inc");
 <table>
 <tr>
 <td><?php xl('Examination Date','e'); ?>:</td><td>
-<input type='text' name='datum_onderzoek' id='datum_onderzoek' size='10' value='<?php echo $m_strEventDate ?>'
+<input type='text' name='datum_onderzoek' id='datum_onderzoek' size='10' value='<?php echo $m_strEventDate ?>' readonly
           onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='<?php xl('Examination Date','e'); ?>: yyyy-mm-dd'></input>
 <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
           id='img_last_encounter' border='0' alt='[?]' style='cursor:pointer'

@@ -579,7 +579,7 @@ foreach ($categories as $catkey => $catname) {
         <input type='text' size='10' name='form_docdate' id='form_docdate'
         value='<?php echo date('Y-m-d'); ?>'
         title='<?php xl('yyyy-mm-dd date associated with this document','e'); ?>'
-        onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+        onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly />
         <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
         id='img_docdate' border='0' alt='[?]' style='cursor:pointer'
         title='<?php xl('Click here to choose a date','e'); ?>' />

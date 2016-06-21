@@ -435,7 +435,7 @@ document.onclick=HideTheAjaxDivs;
 				<table  border="0" cellspacing="0" cellpadding="0">
 				  <tr>
 					<td align="left" class="text"><?php echo htmlspecialchars( xl('From'), ENT_QUOTES).':' ?></td>
-					<td><input type='text'  style="width:90px;" name='FromDate' id='FromDate' class="text" value='<?php echo attr($FromDate); ?>' />
+					<td><input type='text'  style="width:90px;" name='FromDate' id='FromDate' class="text" value='<?php echo attr($FromDate); ?>' readonly />
 					   <img src='../../interface/main/calendar/modules/PostCalendar/pntemplates/default/images/new.jpg' align="texttop"
 						id='img_FromDate' border='0' alt='[?]' style='cursor:pointer'
 						title='<?php echo htmlspecialchars( xl('Click here to choose a date'), ENT_QUOTES); ?>' />
@@ -444,7 +444,7 @@ document.onclick=HideTheAjaxDivs;
 					   </script></td>
 					<td width="53">&nbsp;</td>
 					<td align="left" class="text"><?php echo htmlspecialchars( xl('To'), ENT_QUOTES).':' ?></td>
-					<td><input type='text'  style="width:103px;"  name='ToDate' id='ToDate' class="text" value='<?php echo attr($ToDate); ?>' />
+					<td><input type='text'  style="width:103px;"  name='ToDate' id='ToDate' class="text" value='<?php echo attr($ToDate); ?>' readonly />
 					   <img src='../../interface/main/calendar/modules/PostCalendar/pntemplates/default/images/new.jpg' align="texttop"
 						id='img_ToDate' border='0' alt='[?]' style='cursor:pointer'
 						title='<?php echo htmlspecialchars( xl('Click here to choose a date'), ENT_QUOTES); ?>' />

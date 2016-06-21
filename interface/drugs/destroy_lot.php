@@ -115,7 +115,7 @@ td { font-size:10pt; }
    <input type='text' size='10' name='form_date' id='form_date'
     value='<?php echo $row['destroy_date'] ? attr($row['destroy_date']) : date("Y-m-d"); ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-    title='<?php echo xla('yyyy-mm-dd date destroyed'); ?>' />
+    title='<?php echo xla('yyyy-mm-dd date destroyed'); ?>' readonly />
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_date' border='0' alt='[?]' style='cursor:pointer'
     title='<?php echo xla('Click here to choose a date'); ?>'>
@@ -126,7 +126,7 @@ td { font-size:10pt; }
   <td valign='top' nowrap><b><?php echo xlt('Method of Destruction'); ?>:</b></td>
   <td>
    <input type='text' size='40' name='form_method' maxlength='250'
-    value='<?php echo text($row['destroy_method']) ?>' style='width:100%' />
+    value='<?php echo text($row['destroy_method']) ?>' style='width:100%' readonly />
   </td>
  </tr>
 

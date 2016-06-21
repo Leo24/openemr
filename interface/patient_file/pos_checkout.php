@@ -1089,7 +1089,7 @@ if ($inv_encounter) {
    <input type='text' size='10' name='form_date' id='form_date'
     value='<?php echo attr($inv_date) ?>'
     title='yyyy-mm-dd date of service'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly/>
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_date' border='0' alt='[?]' style='cursor:pointer'
     title='<?php echo xla("Click here to choose a date"); ?>'>

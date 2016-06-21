@@ -297,7 +297,7 @@ form {
 <form method='post' name='theform' action='find_appt_popup.php?providerid=<?php echo attr($providerid) ?>&catid=<?php echo attr($input_catid) ?>'>
    <?php echo xlt('Start date:'); ?>
    <input type='text' name='startdate' id='startdate' size='10' value='<?php echo attr($sdate) ?>'
-    title='<?php echo xla('yyyy-mm-dd starting date for search'); ?> '/>
+    title='<?php echo xla('yyyy-mm-dd starting date for search'); ?> ' readonly/>
    <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_date' border='0' alt='[?]' style='cursor:pointer'
     title='<?php echo xla('Click here to choose a date'); ?>'>

@@ -313,7 +313,7 @@ $form_provider = empty($_POST['form_provider']) ? '' : intval($_POST['form_provi
    <input type='text' size='6' name='form_from_date' id='form_from_date'
     value='<?php echo attr($form_from_date); ?>'
     title='<?php echo xla('yyyy-mm-dd'); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly/>
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_from_date' border='0' alt='[?]' style='cursor:pointer'
     title='<?php echo xla('Click here to choose a date'); ?>' />
@@ -322,7 +322,7 @@ $form_provider = empty($_POST['form_provider']) ? '' : intval($_POST['form_provi
    <input type='text' size='6' name='form_to_date' id='form_to_date'
     value='<?php echo attr($form_to_date); ?>'
     title='<?php echo xla('yyyy-mm-dd'); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly/>
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_to_date' border='0' alt='[?]' style='cursor:pointer'
     title='<?php echo xla('Click here to choose a date'); ?>' />

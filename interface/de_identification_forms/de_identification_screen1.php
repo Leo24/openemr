@@ -437,11 +437,11 @@ function download_file()
 	<tr rowspan=2> 
 		<td>&nbsp;</td>
 		<td><span class="text"><?php xl('Begin Date','e'); ?></span>
-		<input type="text" size="10" name="begin_date" id="begin_date" value="<?php echo $viewmode ? substr($result['date'], 0, 10) : date('Y-m-d'); ?>" title="<?php xl('yyyy-mm-dd Date of service','e'); ?>" onkeyup="datekeyup(this,mypcc)" onblur="dateblur(this,mypcc)" />
+		<input type="text" size="10" name="begin_date" id="begin_date" value="<?php echo $viewmode ? substr($result['date'], 0, 10) : date('Y-m-d'); ?>" title="<?php xl('yyyy-mm-dd Date of service','e'); ?>" onkeyup="datekeyup(this,mypcc)" onblur="dateblur(this,mypcc)" readonly />
 		<img src="../pic/show_calendar.gif" align="absbottom" width="24" height="22" id="img_begin_date" border="0" alt="[?]" style="cursor: pointer; cursor: hand" title="<?php xl('Click here to choose a date','e'); ?>">&nbsp;
 		</td>
 		<td><span class="text"><?php xl('End Date','e'); ?></span>
-		<input type="text" size="10" name="end_date" id="end_date" value="<?php echo $viewmode ? substr($result['date'], 0, 10) : date('Y-m-d'); ?>" title="<?php xl('yyyy-mm-dd Date of service','e'); ?>" onkeyup="datekeyup(this,mypcc)" onblur="dateblur(this,mypcc)" />
+		<input type="text" size="10" name="end_date" id="end_date" value="<?php echo $viewmode ? substr($result['date'], 0, 10) : date('Y-m-d'); ?>" title="<?php xl('yyyy-mm-dd Date of service','e'); ?>" onkeyup="datekeyup(this,mypcc)" onblur="dateblur(this,mypcc)" readonly />
 		<img src="../pic/show_calendar.gif" align="absbottom" width="24" height="22" id="img_end_date" border="0" alt="[?]" style="cursor: pointer; cursor: hand" title="<?php xl('Click here to choose a date','e'); ?>">
 		</td>
 		<td>&nbsp;</td>

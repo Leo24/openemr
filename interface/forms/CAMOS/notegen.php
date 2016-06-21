@@ -51,7 +51,7 @@ if (!$_POST['submit_pdf'] && !$_POST['submit_html'] && !($_GET['pid'] && $_GET['
 </td><td>
 <input type='text' size='10' name='start' id='start' value='<?php echo $_POST['end'] ? $_POST['end'] : date('Y-m-d') ?>' 
 onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-title='<?php xl('yyyy-mm-dd last date of this event','e'); ?>' />
+title='<?php xl('yyyy-mm-dd last date of this event','e'); ?>' readonly />
 <img src='<?php echo $depth ?>interface/pic/show_calendar.gif' align='absbottom' width='24' height='22'
 id='img_start' border='0' alt='[?]' style='cursor:pointer'
 title='<?php xl('Click here to choose a date','e'); ?>'>
@@ -65,7 +65,7 @@ Calendar.setup({inputField:'start', ifFormat:'%Y-%m-%d', button:'img_start'});
 </td><td>
 <input type='text' size='10' name='end' id='end' value ='<?php echo $_POST['end'] ? $_POST['end'] : date('Y-m-d') ?>' 
 onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-title='<?php xl('yyyy-mm-dd last date of this event','e'); ?>' />
+title='<?php xl('yyyy-mm-dd last date of this event','e'); ?>' readonly />
 <img src='<?php echo $depth ?>interface/pic/show_calendar.gif' align='absbottom' width='24' height='22'
 id='img_end' border='0' alt='[?]' style='cursor:pointer'
 title='<?php xl('Click here to choose a date','e'); ?>'>

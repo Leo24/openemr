@@ -520,7 +520,7 @@ $group_seq=0; // this gives the DIV blocks unique IDs
 			  <input type='entry' size='16' id='i<?php echo $i ?>effective_date' name='i<?php echo $i ?>effective_date'
 			   value='<?php echo $result3['date'] ?>'
 			   onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-			   title='yyyy-mm-dd' />
+			   title='yyyy-mm-dd' readonly />
                           <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22' id='img_i<?php echo $i ?>effective_date' border='0' alt='[?]' style='cursor:pointer' title='<?php xl('Click here to choose a date','e'); ?>'>
 			 </td>
 			</tr>

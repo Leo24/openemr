@@ -427,7 +427,7 @@ generate_form_field(array('data_type'=>10,'field_id'=>'provider_id'),
       " value='" . $row['date_ordered'] . "'" .
       " title='" . xl('Date of this order') . "'" .
       " onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'" .
-      " />" .
+      " readonly />" .
       "<img src='$rootdir/pic/show_calendar.gif' align='absbottom' width='24' height='22'" .
       " id='img_date_ordered' border='0' alt='[?]' style='cursor:pointer'" .
       " title='" . xl('Click here to choose a date') . "' />";
@@ -443,7 +443,7 @@ generate_form_field(array('data_type'=>10,'field_id'=>'provider_id'),
       " value='" . substr($row['date_collected'], 0, 16) . "'" .
       " title='" . xl('Date and time that the sample was collected') . "'" .
       // " onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'" .
-      " />" .
+      " readonly/>" .
       "<img src='$rootdir/pic/show_calendar.gif' align='absbottom' width='24' height='22'" .
       " id='img_date_collected' border='0' alt='[?]' style='cursor:pointer'" .
       " title='" . xl('Click here to choose a date and time') . "' />";

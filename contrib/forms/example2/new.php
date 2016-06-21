@@ -59,7 +59,7 @@ var mypcc = '<?php echo $GLOBALS['phone_country_code'] ?>';
 <table>
 <tr><td>
 Date: 
-   <input type='text' size='10' name='form_date' id='form_date'
+   <input type='text' size='10' name='form_date' id='form_date' readonly
     value='<?php echo date('Y-m-d', time()); ?>'
     title='<?php xl('yyyy-mm-dd','e'); ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
@@ -70,7 +70,7 @@ Date:
 <tr><td>
 Name: <input id="name" name="name" type="text" size="50" maxlength="250">
 Date of Birth:
-   <input type='text' size='10' name='dob' id='dob'
+   <input type='text' size='10' name='dob' id='dob' readonly
     value='<?php echo $date ?>'
     title='<?php xl('yyyy-mm-dd Date of Birth','e'); ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);' />
@@ -98,7 +98,7 @@ Signature?
 <input type="radio" id="sig" name="sig" value="n">No
 &nbsp;&nbsp;
 Date of signature:
-   <input type='text' size='10' name='sig_date' id='sig_date'
+   <input type='text' size='10' name='sig_date' id='sig_date' readonly
     value='<?php echo date('Y-m-d', time()); ?>'
     title='<?php xl('yyyy-mm-dd','e'); ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />

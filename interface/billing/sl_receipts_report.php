@@ -204,7 +204,7 @@ function sel_diagnosis() {
 			   <?php echo xlt('From'); ?>:
 			</td>
 			<td>
-			   <input type='text' name='form_from_date' id="form_from_date" size='10' value='<?php  echo attr($form_from_date); ?>'
+			   <input type='text' name='form_from_date' id="form_from_date" size='10' value='<?php  echo attr($form_from_date); ?>' readonly
 				title='<?php echo xla('Date of appointments mm/dd/yyyy'); ?>' >
 			   <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
 				id='img_from_date' border='0' alt='[?]' style='cursor:pointer'
@@ -214,7 +214,7 @@ function sel_diagnosis() {
 			   <?php echo xlt('To'); ?>:
 			</td>
 			<td>
-			   <input type='text' name='form_to_date' id="form_to_date" size='10' value='<?php  echo attr($form_to_date); ?>'
+			   <input type='text' name='form_to_date' id="form_to_date" size='10' value='<?php  echo attr($form_to_date); ?>' readonly
 				title='<?php echo xla('Optional end date mm/dd/yyyy'); ?>' >
 			   <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
 				id='img_to_date' border='0' alt='[?]' style='cursor:pointer'

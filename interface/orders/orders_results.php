@@ -321,7 +321,7 @@ if ($form_batch) {
    <input type='text' size='10' name='form_from_date' id='form_from_date'
     value='<?php echo $form_from_date ?>'
     title='<?php xl('yyyy-mm-dd','e'); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly/>
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_from_date' border='0' alt='[?]' style='cursor:pointer'
     title='<?php xl('Click here to choose a date','e'); ?>' />
@@ -330,7 +330,7 @@ if ($form_batch) {
    <input type='text' size='10' name='form_to_date' id='form_to_date'
     value='<?php echo $form_to_date ?>'
     title='<?php xl('yyyy-mm-dd','e'); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly/>
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_to_date' border='0' alt='[?]' style='cursor:pointer'
     title='<?php xl('Click here to choose a date','e'); ?>' />
@@ -560,7 +560,7 @@ while ($row = sqlFetchArray($res)) {
         " id='form_date_report[$lino]' class='celltextfw' value='" . attr($date_report) . "' " .
         " title='" . xl('Date and time of this report') . "'" .
         " onkeyup='datekeyup(this,mypcc,true)' onblur='dateblur(this,mypcc,true)'" .
-        " />";
+        " readonly/>";
       echo "<span class='bold' id='q_date_report[$lino]' style='cursor:pointer' " .
         "title='" . xl('Click here to choose a date and time') . "' />?</span>";
       echo "</td>\n";
@@ -571,7 +571,7 @@ while ($row = sqlFetchArray($res)) {
         " class='celltextfw' value='" . attr($date_collected) . "' " .
         " title='" . xl('Date and time of sample collection') . "'" .
         " onkeyup='datekeyup(this,mypcc,true)' onblur='dateblur(this,mypcc,true)'" .
-        " />";
+        " readonly/>";
       echo "<span class='bold' id='q_date_collected[$lino]' style='cursor:pointer' " .
         "title='" . xl('Click here to choose a date and time') . "' />?</span>";
       echo "</td>\n";

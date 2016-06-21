@@ -89,7 +89,7 @@ $form_end_date   = fixDate($_POST['form_end_date'], date("Y-m-d"));
 			   <?php xl('Visits From','e'); ?>:
 			</td>
 			<td>
-			   <input type='text' name='form_start_date' id="form_start_date" size='10' value='<?php echo $form_start_date ?>'
+			   <input type='text' name='form_start_date' id="form_start_date" size='10' value='<?php echo $form_start_date ?>' readonly
 				onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='yyyy-mm-dd'>
 			   <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
 				id='img_start_date' border='0' alt='[?]' style='cursor:pointer'
@@ -99,7 +99,7 @@ $form_end_date   = fixDate($_POST['form_end_date'], date("Y-m-d"));
 			   <?php xl('To','e'); ?>:
 			</td>
 			<td>
-			   <input type='text' name='form_end_date' id="form_end_date" size='10' value='<?php echo $form_end_date ?>'
+			   <input type='text' name='form_end_date' id="form_end_date" size='10' value='<?php echo $form_end_date ?>' readonly
 				onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='yyyy-mm-dd'>
 			   <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
 				id='img_end_date' border='0' alt='[?]' style='cursor:pointer'

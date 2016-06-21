@@ -344,7 +344,7 @@ if ($_POST['form_save'] || $_POST['form_delete']) {
     title='<?php echo xla('yyyy-mm-dd date of expiration'); ?>' />
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_expiration' border='0' alt='[?]' style='cursor:pointer'
-    title='<?php echo xla('Click here to choose a date'); ?>'>
+    title='<?php echo xla('Click here to choose a date'); ?>' readonly>
   </td>
  </tr>
 
@@ -427,7 +427,7 @@ generate_form_field(array('data_type' => 14, 'field_id' => 'distributor_id',
     title='<?php echo xla('yyyy-mm-dd date of purchase or transfer'); ?>' />
    <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_sale_date' border='0' alt='[?]' style='cursor:pointer'
-    title='<?php echo xla('Click here to choose a date'); ?>'>
+    title='<?php echo xla('Click here to choose a date'); ?>' readonly>
   </td>
  </tr>
 

@@ -562,7 +562,7 @@ if (! $GLOBALS['simplified_demographics']) {
        id='i<?php echo $i ?>effective_date'
        value='<?php echo $result3['date'] ?>'
        onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-       title='yyyy-mm-dd' />
+       title='yyyy-mm-dd' readonly/>
 
       <img src='../../interface/pic/show_calendar.gif' align='absbottom' width='24' height='22'
       id='img_i<?php echo $i ?>effective_date' border='0' alt='[?]' style='cursor:pointer'
@@ -659,7 +659,7 @@ if (! $GLOBALS['simplified_demographics']) {
     id='i<?php echo $i?>subscriber_DOB'
     value='<?php echo $result3['subscriber_DOB'] ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-    title='yyyy-mm-dd' />
+    title='yyyy-mm-dd' readonly/>
 
    <img src='../../interface/pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_i<?php echo $i; ?>dob_date' border='0' alt='[?]' style='cursor:pointer'

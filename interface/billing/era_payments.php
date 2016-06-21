@@ -215,7 +215,7 @@ document.onclick=HideTheAjaxDivs;
 	  <tr>
 	    <td  align="left"  class="text"></td>
 	    <td  align="left"  class="text"><?php echo htmlspecialchars( xl('Post To Date'), ENT_QUOTES).':' ?></td>
-	    <td  align="left"  class="text"><input type='text' size='6' name='post_to_date' id='post_to_date'  value="<?php echo formData('post_to_date') ?>" class="class1 text "   onKeyDown="PreventIt(event)"  />
+	    <td  align="left"  class="text"><input type='text' size='6' name='post_to_date' id='post_to_date' readonly value="<?php echo formData('post_to_date') ?>" class="class1 text "   onKeyDown="PreventIt(event)"  />
 		<img src='../../interface/main/calendar/modules/PostCalendar/pntemplates/default/images/new.jpg' align='texttop' 
 		id='img_post_to_date' border='0' alt='[?]' style='cursor:pointer'
 		title='<?php echo htmlspecialchars( xl('Click here to choose a date'), ENT_QUOTES); ?>' />

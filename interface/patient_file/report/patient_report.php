@@ -85,7 +85,7 @@ function show_date_fun(){
       <td>
         <input type='text' size='10' name='Start' id='Start'
          onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-         title='<?php xl('yyyy-mm-dd','e'); ?>' />
+         title='<?php xl('yyyy-mm-dd','e'); ?>'readonly />
         <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
          id='img_start' border='0' alt='[?]' style='cursor:pointer'
          title='<?php xl('Click here to choose a date','e'); ?>' >
@@ -100,7 +100,7 @@ function show_date_fun(){
       <td>
         <input type='text' size='10' name='End' id='End'
          onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)'
-         title='<?php xl('yyyy-mm-dd','e'); ?>' />
+         title='<?php xl('yyyy-mm-dd','e'); ?>' readonly/>
         <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
          id='img_end' border='0' alt='[?]' style='cursor:pointer'
          title='<?php xl('Click here to choose a date','e'); ?>' >

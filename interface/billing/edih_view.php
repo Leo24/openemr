@@ -146,11 +146,11 @@ if (!acl_check('acct', 'eob')) die(xlt("Access Not Authorized"));
 						</td>
                         <!-- datekeyup(e, defcc, withtime)  dateblur(e, defcc, withtime) -->
                         <td align='left'>
-						   <input type='text' size='8' name='csv_date_start' id='caldte1' value='' title='yyyy-mm-dd Start Date' />
+						   <input type='text' size='8' name='csv_date_start' id='caldte1' value='' title='yyyy-mm-dd Start Date' readonly />
                            <img src="<?php echo $web_root?>/interface/pic/show_calendar.gif" align='absbottom' width='24' height='22'
                               id='csvdate1_cal' border='0' alt='[?]' style='cursor:pointer;cursor:hand' title='Start date'>
                         
-                           <input type='text' size='8' name='csv_date_end' id='caldte2' value='' title='yyyy-mm-dd End Date' />
+                           <input type='text' size='8' name='csv_date_end' id='caldte2' value='' title='yyyy-mm-dd End Date' readonly />
                            <img src='../pic/show_calendar.gif' align='absbottom' width='24' height='22'
                               id='csvdate2_cal' border='0' alt='[?]' style='cursor:pointer;cursor:hand' title='End date'>
                         </td>

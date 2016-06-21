@@ -211,7 +211,7 @@ if ($result['errmsg']) {
  <tr>
   <td class='text' align='center'>
    <?php echo xlt('From'); ?>:
-   <input type='text' size='8' name='form_from_date' id='form_from_date'
+   <input type='text' size='8' name='form_from_date' id='form_from_date' readonly
     value='<?php echo attr($form_from_date); ?>'
     title='<?php echo xla('yyyy-mm-dd'); ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
@@ -220,7 +220,7 @@ if ($result['errmsg']) {
     title='<?php echo xla('Click here to choose a date'); ?>' />
    &nbsp;
    <?php echo xlt('To'); ?>:
-   <input type='text' size='8' name='form_to_date' id='form_to_date'
+   <input type='text' size='8' name='form_to_date' id='form_to_date' readonly
     value='<?php echo attr($form_to_date); ?>'
     title='<?php echo xla('yyyy-mm-dd'); ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
@@ -228,7 +228,7 @@ if ($result['errmsg']) {
     id='img_to_date' border='0' alt='[?]' style='cursor:pointer'
     title='<?php echo xla('Click here to choose a date'); ?>' />
    &nbsp;
-   <input type='submit' name='form_refresh' value=<?php echo xla('Submit'); ?>>
+   <input type='submit' name='form_refresh' value=<?php echo xla('Submit'); ?> readonly>
   </td>
  </tr>
 </table>

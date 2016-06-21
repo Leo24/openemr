@@ -196,8 +196,8 @@ function autosave( )
 <table>
 <tr>
 <td><?php xl('Intake Date','e'); ?>:</td><td>
-<input type='text' name='intakedatum' id='intakedatum' size='10' value='<?php echo $m_strEventDate ?>'
-          onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='<?php xl('Intake Date','e'); ?>: yyyy-mm-dd'></input>
+<input type='text' name='intakedatum' id='intakedatum' size='10' value='<?php echo $m_strEventDate ?>' readonly
+          onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='<?php xl('Intake Date','e'); ?>: yyyy-mm-dd'/>
 <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
           id='img_last_encounter' border='0' alt='[?]' style='cursor:pointer'
           title='<?php xl('Click here to choose a date','e'); ?>'>

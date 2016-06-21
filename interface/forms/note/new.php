@@ -95,7 +95,7 @@ var mypcc = '<?php echo $GLOBALS['phone_country_code'] ?>';
    <input type='text' size='10' name='date_of_signature' id='date_of_signature'
     value='<?php echo date('Y-m-d', time()); ?>'
     title='<?php echo xla('yyyy-mm-dd'); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' readonly/>
    <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_date_of_signature' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
     title='<?php echo xla('Click here to choose a date'); ?>'>

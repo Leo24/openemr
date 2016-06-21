@@ -94,7 +94,7 @@ Date:
 <tr><td>
 Name: <input id="name" name="name" type="text" size="50" maxlength="250" value="<?php echo stripslashes($record['name']);?>">
 Date of Birth:
-   <input type='text' size='10' name='dob' id='dob'
+   <input type='text' size='10' name='dob' id='dob' readonly
     value='<?php echo stripslashes($record['dob']);?>'
     title='<?php xl('yyyy-mm-dd Date of Birth','e'); ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);'
@@ -123,7 +123,7 @@ Signature?
 <input type="radio" id="sig" name="sig" value="n" <?php if ($record["sig"] == 'n') echo "CHECKED"; ?>>No
 &nbsp;&nbsp;
 Date of signature: 
-   <input type='text' size='10' name='sig_date' id='sig_date'
+   <input type='text' size='10' name='sig_date' id='sig_date' readonly
     value='<?php echo stripslashes($record['sig_date']);?>'
     title='<?php xl('yyyy-mm-dd','e'); ?>'
     onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />

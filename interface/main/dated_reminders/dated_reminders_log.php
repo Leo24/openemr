@@ -128,9 +128,9 @@
       <h2><?php echo xlt('filters') ?> :</h2>
       <blockquote><?php echo xlt('Date The Message Was Sent') ?><br />
 <!----------------------------------------------------------------------------------------------------------------------------------------------------->  
-      <?php echo xlt('Start Date') ?> : <input id="sd" type="text" name="sd" value="" onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='<?php echo xla('yyyy-mm-dd'); ?>' />   &nbsp;&nbsp;&nbsp;  
+      <?php echo xlt('Start Date') ?> : <input id="sd" type="text" name="sd" value="" onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='<?php echo xla('yyyy-mm-dd'); ?>' readonly/>   &nbsp;&nbsp;&nbsp;
 <!----------------------------------------------------------------------------------------------------------------------------------------------------->   
-      <?php echo xlt('End Date') ?> : <input id="ed" type="text" name="ed" value="" onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='<?php echo xla('yyyy-mm-dd'); ?>' />   <br /><br />
+      <?php echo xlt('End Date') ?> : <input id="ed" type="text" name="ed" value="" onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' title='<?php echo xla('yyyy-mm-dd'); ?>' readonly/>   <br /><br />
 <!----------------------------------------------------------------------------------------------------------------------------------------------------->   
       </blockquote>
       <table style="width:100%">
