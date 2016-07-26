@@ -43,6 +43,10 @@ require_once($GLOBALS['srcdir'].'/encounter_events.inc.php');
 require_once($GLOBALS['srcdir'].'/acl.inc');
 require_once($GLOBALS['srcdir'].'/patient_tracker.inc.php');
 
+require_once($GLOBALS['srcdir']."/formatting.inc.php");
+$DateFormat = DateFormatRead();
+$DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
+
  //Check access control
  if (!acl_check('patients','appt','',array('write','wsome') ))
    die(xl('Access not allowed'));
@@ -77,7 +81,7 @@ require_once($GLOBALS['srcdir'].'/patient_tracker.inc.php');
 
  ?>
 
- <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/js/jquery.js"></script>
+ <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/js/jquery-1.7.2.min.js"></script>
 
  <?php
 
@@ -215,7 +219,7 @@ if ($_POST['form_action'] == "duplicate" || $_POST['form_action'] == "save")
  {
     // the starting date of the event, pay attention with this value
     // when editing recurring events -- JRM Oct-08
-    $event_date = fixDate($_POST['form_date']);
+    $event_date = fixDateDefaultAmended($_POST['form_date']);
 
     // Compute start and end time strings to be saved.
     if ($_POST['form_allday']) {
@@ -361,7 +365,7 @@ if ($_POST['form_action'] == "save") {
                     // this event is forced to NOT REPEAT
                     $args['form_repeat'] = "0";
                     $args['recurrspec'] = $noRecurrspec;
-                    $args['form_enddate'] = "0000-00-00";
+                    $args['form_enddate'] = "1000-01-01";
                     $args['starttime'] = $starttime;
                     $args['endtime'] = $endtime;
                     $args['locationspec'] = $locationspec;
@@ -422,7 +426,7 @@ if ($_POST['form_action'] == "save") {
                 // oct-08 JRM
                 if ($_POST['form_date'] == $_POST['selected_date']) {
                     // user has NOT changed the start date of the event
-                    $event_date = fixDate($_POST['event_start_date']);
+                    $event_date = fixDateDefaultAmended($_POST['event_start_date']);
                 }
 
                 // this difference means that some providers were added
@@ -456,7 +460,7 @@ if ($_POST['form_action'] == "save") {
                         "pc_room = '" . add_escape_custom($_POST['form_room']) . "', " .
                         "pc_informant = '" . add_escape_custom($_SESSION['authUserID']) . "', " .
                         "pc_eventDate = '" . add_escape_custom($event_date) . "', " .
-                        "pc_endDate = '" . add_escape_custom(fixDate($_POST['form_enddate'])) . "', " .
+                        "pc_endDate = '" . add_escape_custom(fixDateDefaultAmended($_POST['form_enddate'])) . "', " .
                         "pc_duration = '" . add_escape_custom(($duration * 60)) . "', " .
                         "pc_recurrtype = '" . add_escape_custom($my_recurrtype) . "', " .
                         "pc_recurrspec = '" . add_escape_custom(serialize($recurrspec)) . "', " .
@@ -502,7 +506,7 @@ if ($_POST['form_action'] == "save") {
                 // this event is forced to NOT REPEAT
                 $args['form_repeat'] = "0";
                 $args['recurrspec'] = $noRecurrspec;
-                $args['form_enddate'] = "0000-00-00";
+                $args['form_enddate'] = "1000-01-01";
                 $args['starttime'] = $starttime;
                 $args['endtime'] = $endtime;
                 $args['locationspec'] = $locationspec;
@@ -533,7 +537,7 @@ if ($_POST['form_action'] == "save") {
     // oct-08 JRM
     if ($_POST['form_date'] == $_POST['selected_date']) {
         // user has NOT changed the start date of the event
-        $event_date = fixDate($_POST['event_start_date']);
+        $event_date = fixDateDefaultAmended($_POST['event_start_date']);
     }
 
                 // mod the SINGLE event or ALL EVENTS in a repeating series
@@ -548,7 +552,7 @@ if ($_POST['form_action'] == "save") {
                     "pc_room = '" . add_escape_custom($_POST['form_room']) . "', " .
                     "pc_informant = '" . add_escape_custom($_SESSION['authUserID']) . "', " .
                     "pc_eventDate = '" . add_escape_custom($event_date) . "', " .
-                    "pc_endDate = '" . add_escape_custom(fixDate($_POST['form_enddate'])) . "', " .
+                    "pc_endDate = '" . add_escape_custom(fixDateDefaultAmended($_POST['form_enddate'])) . "', " .
                     "pc_duration = '" . add_escape_custom(($duration * 60)) . "', " .
                     "pc_recurrtype = '" . add_escape_custom($my_recurrtype) . "', " .
                     "pc_recurrspec = '" . add_escape_custom(serialize($recurrspec)) . "', " .
@@ -987,9 +991,9 @@ td { font-size:0.8em; }
   f.form_repeat_type.disabled = isdisabled;
   f.form_repeat_freq.disabled = isdisabled;
   f.form_enddate.disabled = isdisabled;
-  document.getElementById('tdrepeat1').style.color = mycolor;
-  document.getElementById('tdrepeat2').style.color = mycolor;
-  document.getElementById('img_enddate').style.visibility = myvisibility;
+ $("#tdrepeat1").css("color", mycolor);
+ $("#tdrepeat2").css("color", mycolor);
+ $("#img_enddate").css("visibility", myvisibility);
  }
 
  // Constants used by dateChanged() function.
@@ -1506,7 +1510,7 @@ if ($repeatexdate != "") {
    <b><font color='red'><?php echo xlt('DOB is missing, please enter if possible'); ?>:</font></b>
   </td>
   <td nowrap>
-   <input type='text' size='10' name='form_dob' id='form_dob' title='<?php echo xla('yyyy-mm-dd date of birth');?>' onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
+   <input type='text' size='10' name='form_dob' id='form_dob' />
    <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
     id='img_dob' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
     title='<?php echo xla('Click here to choose a date');?>'>
@@ -1545,7 +1549,8 @@ if ($repeatexdate != "") {
 </div>
 
 </body>
-
+<link rel="stylesheet" href="../../../library/css/jquery.datetimepicker.css">
+<script type="text/javascript" src="../../../library/js/jquery.datetimepicker.full.min.js"></script>
 <script language='JavaScript'>
 <?php if ($eid) { ?>
  set_display();
@@ -1554,10 +1559,13 @@ if ($repeatexdate != "") {
 <?php } ?>
  set_allday();
  set_repeat();
-
- Calendar.setup({inputField:"form_date", ifFormat:"%Y-%m-%d", button:"img_date"});
- Calendar.setup({inputField:"form_enddate", ifFormat:"%Y-%m-%d", button:"img_enddate"});
- Calendar.setup({inputField:"form_dob", ifFormat:"%Y-%m-%d", button:"img_dob"});
+$(function() {
+    $("#form_date, #form_enddate, #form_dob").datetimepicker({
+        timepicker: false,
+        format: "<?= $DateFormat; ?>"
+    });
+    $.datetimepicker.setLocale('<?= $DateLocale;?>');
+});
 </script>
 
 <script language="javascript">

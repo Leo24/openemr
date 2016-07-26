@@ -24,6 +24,7 @@ $sanitize_all_escapes=true;
 /* Include our required headers */
 require_once('../globals.php');
 require_once("$srcdir/formdata.inc.php");
+require_once("$srcdir/user.inc");
 
 // Creates a new session id when load this outer frame
 // (allows creations of separate OpenEMR frames to view patients concurrently
@@ -83,6 +84,9 @@ else if (!empty($_POST['patientID'])) {
     $frame1url = "../patient_file/summary/demographics.php?set_pid=".attr($patientID)."&set_encounterid=".attr($encounterID);
   }
 }
+else if ($GLOBALS['athletic_team']) {
+  $frame1url = "../reports/players_report.php?embed=1";
+}
 else if (isset($_GET['mode']) && $_GET['mode'] == "loadcalendar") {
   $frame1url = "calendar/index.php?pid=" . attr($_GET['pid']);
   if (isset($_GET['date'])) $frame1url .= "&date=" . attr($_GET['date']);
@@ -100,7 +104,7 @@ else {
   $frame1url = "main.php?mode=" . attr($_GET['mode']);
 }
 
-$nav_area_width = '130';
+$nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
 if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 ?>
 <html>
@@ -144,10 +148,9 @@ $sidebar_tpl = "<frameset rows='*,0' frameborder='0' border='0' framespacing='0'
     border='0' framespacing='0' />
   </frameset>";
         
-$main_tpl = "<frameset rows='60%,*' id='fsright' bordercolor='#999999' frameborder='1'>" ;
+$main_tpl = empty($GLOBALS['athletic_team']) ? "<frameset rows='60%,*' id='fsright' bordercolor='#999999' frameborder='1'>" : "<frameset rows='100%,*' id='fsright' bordercolor='#999999' frameborder='1'>";
 $main_tpl .= "<frame src='". $frame1url ."' name='RTop' scrolling='auto' />
    <frame src='messages/messages.php?form_active=1' name='RBot' scrolling='auto' /></frameset>";
-
 // Please keep in mind that border (mozilla) and framespacing (ie) are the
 // same thing. use both.
 // frameborder specifies a 3d look, not whether there are borders.
@@ -173,7 +176,7 @@ if ($GLOBALS['concurrent_layout']) {
      </frameset>
  
  <?php }?>
-
+   
  </frameset>
 </frameset>
 
@@ -187,7 +190,11 @@ if ($GLOBALS['concurrent_layout']) {
  </frameset>
  <frameset rows='<?php echo attr($GLOBALS['titleBarHeight']) + 5 ?>,*' frameborder='1' border='1' framespacing='1'>
   <frame src='main_title.php' name='Title' scrolling='no' frameborder='1' />
+<?php if (empty($GLOBALS['athletic_team'])) { ?>
   <frameset rows='60%,*' id='fsright' bordercolor='#999999' frameborder='1' border='4' framespacing='4'>
+<?php } else { ?>
+  <frameset rows='100%,*' id='fsright' bordercolor='#999999' frameborder='1' border='4' framespacing='4'>
+<?php } ?>
    <frame src='<?php echo $frame1url ?>' name='RTop' scrolling='auto' />
    <frame src='messages/messages.php?form_active=1' name='RBot' scrolling='auto' />
   </frameset>
@@ -210,6 +217,15 @@ if ($GLOBALS['concurrent_layout']) {
 <?php echo xlt('Frame support required'); ?>
 </body></noframes>
 
-<?php } // end old layout ?>
+<?php } // end old layout
+
+
+// set user Timezone
+if(!empty($_POST['currentTimezone']) && !empty($_POST['authUser'])) {
+    $username = $_POST['authUser'];
+    setUserTimezone($username, $_POST['currentTimezone']);
+}
+
+?>
 
 </html>

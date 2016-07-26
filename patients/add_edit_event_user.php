@@ -146,7 +146,7 @@ if ( $eid ) {
  if ($_POST['form_action'] == "save") {
 	//print_r($_POST);
 	//exit();
-  $event_date = fixDate($_POST['form_date']);
+  $event_date = fixDateDefaultAmended($_POST['form_date']);
 
   // Compute start and end time strings to be saved.
   if ($_POST['form_allday']) {
@@ -347,7 +347,7 @@ if ( $eid ) {
                     "'" . $_POST['form_comments']             . "', " .
                     "'" . $_SESSION['authUserID']             . "', " .
                     "'" . $event_date                         . "', " .
-                    "'" . fixDate($_POST['form_enddate'])     . "', " .
+                    "'" . fixDateDefaultAmended($_POST['form_enddate'])     . "', " .
                     "'" . ($duration * 60)                    . "', " .
                     "'" . ($_POST['form_repeat'] ? '1' : '0') . "', " .
                     "'$recurrspec', "                                 .
@@ -374,7 +374,7 @@ if ( $eid ) {
             "pc_hometext = '"    . $_POST['form_comments']             . "', " .
             "pc_informant = '"   . $_SESSION['authUserID']             . "', " .
             "pc_eventDate = '"   . $event_date                         . "', " .
-            "pc_endDate = '"     . fixDate($_POST['form_enddate'])     . "', " .
+            "pc_endDate = '"     . fixDateDefaultAmended($_POST['form_enddate'])     . "', " .
             "pc_duration = '"    . ($duration * 60)                    . "', " .
             "pc_recurrtype = '"  . ($_POST['form_repeat'] ? '1' : '0') . "', " .
             "pc_recurrspec = '$recurrspec', "                                  .
@@ -408,7 +408,7 @@ if ( $eid ) {
             "pc_hometext = '"    . $_POST['form_comments']             . "', " .
             "pc_informant = '"   . $_SESSION['authUserID']             . "', " .
             "pc_eventDate = '"   . $event_date                         . "', " .
-            "pc_endDate = '"     . fixDate($_POST['form_enddate'])     . "', " .
+            "pc_endDate = '"     . fixDateDefaultAmended($_POST['form_enddate'])     . "', " .
             "pc_duration = '"    . ($duration * 60)                    . "', " .
             "pc_recurrtype = '"  . ($_POST['form_repeat'] ? '1' : '0') . "', " .
             "pc_recurrspec = '$recurrspec', "                                  .
@@ -462,7 +462,7 @@ if (is_array($_POST['form_provider'])) {
     "'" . $_POST['form_comments']             . "', " .
     "'" . $_SESSION['authUserID']             . "', " .
     "'" . $event_date                         . "', " .
-    "'" . fixDate($_POST['form_enddate'])     . "', " .
+    "'" . fixDateDefaultAmended($_POST['form_enddate'])     . "', " .
     "'" . ($duration * 60)                    . "', " .
     "'" . ($_POST['form_repeat'] ? '1' : '0') . "', " .
     "'$recurrspec', "                                 .
@@ -492,7 +492,7 @@ sqlInsert("INSERT INTO openemr_postcalendar_events ( " .
     "'" . $_POST['form_comments']             . "', " .
     "'" . $_SESSION['authUserID']             . "', " .
     "'" . $event_date                         . "', " .
-    "'" . fixDate($_POST['form_enddate'])     . "', " .
+    "'" . fixDateDefaultAmended($_POST['form_enddate'])     . "', " .
     "'" . ($duration * 60)                    . "', " .
     "'" . ($_POST['form_repeat'] ? '1' : '0') . "', " .
     "'$recurrspec', "                                 .

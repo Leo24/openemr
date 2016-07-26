@@ -41,6 +41,7 @@ require_once(dirname(__FILE__) . "/../../library/classes/X12Partner.class.php");
 require_once("$srcdir/options.inc.php");
 require_once("$srcdir/formatting.inc.php");
 require_once("$srcdir/payment.inc.php");
+require_once($GLOBALS['srcdir'].'/patient.inc');
 //===============================================================================
 	$screen='new_payment';
 //===============================================================================
@@ -68,9 +69,9 @@ if ($mode == "new_payment" || $mode == "distribute")
       $user_id=$_SESSION['authUserID'];
 	  $closed=0;
 	  $modified_time = date('Y-m-d H:i:s');
-	  $check_date=DateToYYYYMMDD(formData('check_date'));
-	  $deposit_date=DateToYYYYMMDD(formData('deposit_date'));
-	  $post_to_date=DateToYYYYMMDD(formData('post_to_date'));
+	  $check_date=fixDate(DateToYYYYMMDD(formData('check_date')));
+	  $deposit_date=fixDate(DateToYYYYMMDD(formData('deposit_date')));
+	  $post_to_date=fixDate(DateToYYYYMMDD(formData('post_to_date')));
 	  if($post_to_date=='')
 	   $post_to_date=date('Y-m-d');
 	  if(formData('deposit_date')=='')
@@ -130,20 +131,18 @@ $DateFormat=DateFormatRead();
 <html>
 <head>
 <?php if (function_exists('html_header_show')) html_header_show(); ?>
-
-<style type="text/css">@import url(../../library/dynarch_calendar.css);</style>
+	<link rel="stylesheet" href="../../library/css/jquery.datetimepicker.css"
 <script type="text/javascript" src="../../library/dialog.js"></script>
 <script type="text/javascript" src="../../library/textformat.js"></script>
-<script type="text/javascript" src="../../library/dynarch_calendar.js"></script>
-<?php include_once("{$GLOBALS['srcdir']}/dynarch_calendar_en.inc.php"); ?>
-<script type="text/javascript" src="../../library/dynarch_calendar_setup.js"></script>
 <script language='JavaScript'>
  var mypcc = '1';
 </script>
 <?php include_once("{$GLOBALS['srcdir']}/payment_jav.inc.php"); ?>
- <script type="text/JavaScript" src="<?php echo $GLOBALS['assets_static_relative']; ?>/jquery-min-1-2-1/index.js"></script>
+ <script type="text/JavaScript" src="<?php echo $GLOBALS[assets_static_relative]; ?>/jquery-min-1-2-1/index.js"></script>
+ <script type="text/JavaScript" src="../../library/js/jquery-1.7.2.min.js"></script>
 <?php include_once("{$GLOBALS['srcdir']}/ajax/payment_ajax_jav.inc.php"); ?>
 <script type="text/javascript" src="../../library/js/common.js"></script>
+<script type="text/JavaScript" src="../../library/js/jquery.datetimepicker.full.min.js"></script>
 <script LANGUAGE="javascript" TYPE="text/javascript">
 function CancelDistribute()
  {//Used in the cancel button.Helpful while cancelling the distribution.

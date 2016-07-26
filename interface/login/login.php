@@ -41,7 +41,10 @@ include_once("$srcdir/sql.inc");
 <link rel=stylesheet href="../themes/login.css" type="text/css">
 
 <script language='JavaScript' src="../../library/js/jquery-1.4.3.min.js"></script>
-<script language='JavaScript'>
+<script type="text/javascript" src="../../library/js/pellepim-jstimezonedetect/jstz.main.js"></script>
+<script type="text/javascript" src="../../library/js/pellepim-jstimezonedetect/setUserTimezone.js"></script>
+
+    <script language='JavaScript'>
 function transmit_form()
 {
     document.forms[0].submit();
@@ -179,6 +182,7 @@ else {
 </td></tr><tr>
 <td><span class="text"><?php echo xlt('Password:'); ?></span></td>
 <td>
+<input class="timezone" type="hidden" name="currentTimezone">
 <input class="entryfield" type="password" size="10" name="clearPass">
 </td></tr>
 

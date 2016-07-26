@@ -5742,6 +5742,7 @@ Select Insurance, by typing
 Select Issue
 Select items
 Select Language
+Select locale timezone
 Select One
 Select one or more diagnosis codes to justify the service
 Select one or more files to upload

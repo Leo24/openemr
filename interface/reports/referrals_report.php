@@ -31,6 +31,10 @@
  require_once "$srcdir/options.inc.php";
  require_once "$srcdir/formdata.inc.php";
 
+ /** Current format date */
+ $DateFormat = DateFormatRead();
+ $DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
+
  $from_date = (isset($_POST['form_from_date']))  ? fixDate($_POST['form_from_date'], date('Y-m-d')) : '';
  $form_from_date = $from_date;
  $to_date   = (isset($_POST['form_to_date']))    ? fixDate($_POST['form_to_date'], date('Y-m-d')) : '';;
@@ -43,6 +47,7 @@
 <title><?php echo xlt('Referrals'); ?></title>
 
 <style type="text/css">@import url(../../library/dynarch_calendar.css);</style>
+<link rel="stylesheet" href="../../library/css/jquery.datetimepicker.css">
 
 <script type="text/javascript" src="../../library/dialog.js?v=<?php echo $v_js_includes; ?>"></script>
 <script type="text/javascript" src="../../library/textformat.js?v=<?php echo $v_js_includes; ?>"></script>
@@ -278,9 +283,19 @@
 <?php } ?>
 </form>
 
-<script language='JavaScript'>
- Calendar.setup({inputField:"form_from_date", ifFormat:"%Y-%m-%d", button:"img_from_date"});
- Calendar.setup({inputField:"form_to_date", ifFormat:"%Y-%m-%d", button:"img_to_date"});
+<script type="text/javascript" src="../../library/js/jquery.datetimepicker.full.min.js"></script>
+<script>
+    $(function() {
+        $("#form_from_date").datetimepicker({
+            timepicker: false,
+            format: "<?= $DateFormat; ?>"
+        });
+        $("#form_to_date").datetimepicker({
+            timepicker: false,
+            format: "<?= $DateFormat; ?>"
+        });
+        $.datetimepicker.setLocale('<?= $DateLocale;?>');
+    });
 </script>
 
 </body>

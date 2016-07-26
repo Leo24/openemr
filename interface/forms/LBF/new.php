@@ -293,6 +293,7 @@ $(document).ready(function() {
   });
   window.addEventListener("beforeunload", function (e) {
     if (somethingChanged && !top.timed_out) {
+
       var msg = "<?php echo xls('You have unsaved changes.'); ?>";
       e.returnValue = msg;     // Gecko, Trident, Chrome 34+
       return msg;              // Gecko, WebKit, Chrome <34

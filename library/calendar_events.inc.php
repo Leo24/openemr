@@ -13,7 +13,7 @@ function getSquadEvents($date, $squad, $plid) {
     "LEFT JOIN player_event AS p ON " .
     "p.pid = '$plid' AND p.date = '$date' AND p.pc_eid = e.pc_eid " .
     "WHERE ((e.pc_endDate >= '$date' AND e.pc_eventDate <= '$date') OR " .
-    "(e.pc_endDate = '0000-00-00' AND e.pc_eventDate = '$date')) " .
+    "(e.pc_endDate = '1000-01-01' AND e.pc_eventDate = '$date')) " .
     "ORDER BY e.pc_startTime, e.pc_eid");
 }
 

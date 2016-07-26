@@ -5,6 +5,11 @@
 
 include_once("../../globals.php");
 include_once("$srcdir/api.inc");
+require_once("$srcdir/formatting.inc.php");
+
+/** Current format date */
+$DateFormat = DateFormatRead();
+$DateLocale = getLocaleCodeForDisplayLanguage($GLOBALS['language_default']);
 
 /** CHANGE THIS - name of the database table associated with this form **/
 $table_name = "form_example";
@@ -40,18 +45,12 @@ if ($record['sig_date'] != "") {
 <?php html_header_show();?>
 
 <!-- supporting javascript code -->
-<script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/textformat.js"></script>
 
 <!-- page styles -->
 <link rel="stylesheet" href="<?php echo $css_header;?>" type="text/css">
 <link rel="stylesheet" href="../../forms/<?php echo $form_folder; ?>/style.css" type="text/css">
-
-<!-- pop up calendar -->
-<style type="text/css">@import url(<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar.css);</style>
-<script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar.js"></script>
-<script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar_en.js"></script>
-<script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dynarch_calendar_setup.js"></script>
 
 <script language="JavaScript">
 // this line is to assist the calendar text boxes
@@ -85,11 +84,7 @@ function PrintForm() {
 Date:
    <input type='text' size='10' name='form_date' id='form_date'
     value='<?php echo stripslashes($record['form_date']);?>'
-    title='<?php xl('yyyy-mm-dd','e'); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
-   <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
-    id='img_form_date' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
-    title='<?php xl('Click here to choose a date','e'); ?>'>
+    title='<?php xl('yyyy-mm-dd','e'); ?>'/>
 </td></tr>
 <tr><td>
 Name: <input id="name" name="name" type="text" size="50" maxlength="250" value="<?php echo stripslashes($record['name']);?>">
@@ -97,11 +92,7 @@ Date of Birth:
    <input type='text' size='10' name='dob' id='dob'
     value='<?php echo stripslashes($record['dob']);?>'
     title='<?php xl('yyyy-mm-dd Date of Birth','e'); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc);'
     />
-   <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
-    id='img_dob' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
-    title='<?php xl('Click here to choose a date','e'); ?>'>
 </td></tr>
 <tr><td>
 Phone: <input name="phone" id="phone" type="text" size="15" maxlength="15" value="<?php echo stripslashes($record['phone']);?>">
@@ -125,11 +116,7 @@ Signature?
 Date of signature: 
    <input type='text' size='10' name='sig_date' id='sig_date'
     value='<?php echo stripslashes($record['sig_date']);?>'
-    title='<?php xl('yyyy-mm-dd','e'); ?>'
-    onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />
-   <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22'
-    id='img_sig_date' border='0' alt='[?]' style='cursor:pointer;cursor:hand'
-    title='<?php xl('Click here to choose a date','e'); ?>'>
+    title='<?php xl('yyyy-mm-dd','e'); ?>'/>
 </div>
 </div>
 
@@ -142,19 +129,18 @@ Date of signature:
 </form>
 
 </body>
-
+<link rel="stylesheet" href="../../../library/css/jquery.datetimepicker.css">
+<script type="text/javascript" src="../../../library/js/jquery.datetimepicker.full.min.js"></script>
 <script language="javascript">
-/* required for popup calendar */
-Calendar.setup({inputField:"dob", ifFormat:"%Y-%m-%d", button:"img_dob"});
-Calendar.setup({inputField:"form_date", ifFormat:"%Y-%m-%d", button:"img_form_date"});
-Calendar.setup({inputField:"sig_date", ifFormat:"%Y-%m-%d", button:"img_sig_date"});
-
-// jQuery stuff to make the page a little easier to use
-
 $(document).ready(function(){
     $(".save").click(function() { top.restoreSession(); document.my_form.submit(); });
     $(".dontsave").click(function() { location.href='<?php echo "$rootdir/patient_file/encounter/$returnurl";?>'; });
     $(".printform").click(function() { PrintForm(); });
+    $("#dob, #form_date, #sig_date").datetimepicker({
+        timepicker: false,
+        format: "<?= $DateFormat; ?>"
+    });
+    $.datetimepicker.setLocale('<?= $DateLocale;?>');
 });
 
 </script>

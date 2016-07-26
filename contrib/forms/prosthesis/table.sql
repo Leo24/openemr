@@ -2,7 +2,7 @@ CREATE TABLE `form_prosthesis` (
   `id` int(11) NOT NULL auto_increment,
   `pid` int(11) default NULL,
   `activity` tinyint(4) NOT NULL default '0',
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `date` datetime NOT NULL default '1000-01-01 00:00:00',
   `therapist` varchar(255) default NULL,
   `involvement_left` tinyint(1) default NULL,
   `involvement_right` tinyint(1) default NULL,

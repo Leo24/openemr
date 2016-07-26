@@ -42,7 +42,7 @@ define('REPEAT_EVERY_WORK_DAY',4);
 function calendar_arrived($form_pid) {
 	$Today=date('Y-m-d');
 	//Take all recurring events relevent for today.
-	$result_event=sqlStatement("SELECT * FROM openemr_postcalendar_events WHERE pc_recurrtype != '0' and pc_pid = ? and pc_endDate != '0000-00-00'
+	$result_event=sqlStatement("SELECT * FROM openemr_postcalendar_events WHERE pc_recurrtype != '0' and pc_pid = ? and pc_endDate != '1000-01-01'
 		and pc_eventDate < ? and pc_endDate >= ? ",
 		array($form_pid,$Today,$Today));
 	if(sqlNumRows($result_event)==0)//no repeating appointment
@@ -256,7 +256,7 @@ function update_event($eid)
 	// this event is forced to NOT REPEAT
 	$args['form_repeat'] = "0";
 	$args['recurrspec'] = $noRecurrspec;
-	$args['form_enddate'] = "0000-00-00";
+	$args['form_enddate'] = "1000-01-01";
 	$args['starttime'] = $starttime;
 	$args['endtime'] = $endtime;
 	$args['locationspec'] = $locationspec;
@@ -327,7 +327,7 @@ function InsertEvent($args,$from = 'general') {
 			") VALUES (?,?,?,?,?,NOW(),?,?,?,?,?,?,?,?,?,?,?,?,?,1,1,?,?,?)",
 			array($args['form_category'],(isset($args['new_multiple_value']) ? $args['new_multiple_value'] : ''),$args['form_provider'],$form_pid,
 			$args['form_title'],$args['form_comments'],$_SESSION['authUserID'],$args['event_date'],
-			fixDate($args['form_enddate']),$args['duration'],$pc_recurrtype,serialize($args['recurrspec']),
+			fixDateDefaultAmended($args['form_enddate']),$args['duration'],$pc_recurrtype,serialize($args['recurrspec']),
 			$args['starttime'],$args['endtime'],$args['form_allday'],$args['form_apptstatus'],$args['form_prefcat'],
 			$args['locationspec'],(int)$args['facility'],(int)$args['billing_facility'],$form_room)
 		);

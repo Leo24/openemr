@@ -468,6 +468,126 @@ $GLOBALS_METADATA = array(
       xl('Format used to display most times.')
     ),
 
+      'locale_timezone' => array(
+          xl('Timezone'),               // descriptive name
+          array(
+              '0' => xl('(GMT-11:00) Midway Island'),
+              '1' => xl('(GMT-11:00) Samoa'),
+              '2' => xl('(GMT-10:00) Hawaii'),
+              '3' => xl('(GMT-09:00) Alaska'),
+              '4' => xl('(GMT-08:00) Pacific Time (US & Canada)'),
+              '5' => xl('(GMT-08:00) Tijuana'),
+              '6' => xl('(GMT-07:00) Arizona'),
+              '7' => xl('(GMT-07:00) Mountain Time (US & Canada)'),
+              '8' => xl('(GMT-07:00) Chihuahua'),
+              '9' => xl('(GMT-07:00) Mazatlan'),
+              '10' => xl('(GMT-06:00) Mexico City'),
+              '11' => xl('(GMT-06:00) Monterrey'),
+              '12' => xl('(GMT-06:00) Saskatchewan'),
+              '13' => xl('(GMT-06:00) Central Time (US & Canada)'),
+              '14' => xl('(GMT-05:00) Eastern Time (US & Canada)'),
+              '15' => xl('(GMT-05:00) Indiana (East)'),
+              '16' => xl('(GMT-05:00) Bogota'),
+              '17' => xl('(GMT-05:00) Lima'),
+              '18' => xl('(GMT-04:30) Caracas'),
+              '19' => xl('(GMT-04:00) Atlantic Time (Canada)'),
+              '20' => xl('(GMT-04:00) La Paz'),
+              '21' => xl('(GMT-04:00) Santiago'),
+              '22' => xl('(GMT-03:30) Newfoundland'),
+              '23' => xl('(GMT-03:00) Buenos Aires'),
+              '24' => xl('(GMT-03:00) Greenland'),
+              '25' => xl('(GMT-02:00) Stanley'),
+              '26' => xl('(GMT-01:00) Azores'),
+              '27' => xl('(GMT-01:00) Cape Verde Is.'),
+              '28' => xl('(GMT) Casablanca'),
+              '29' => xl('(GMT) Dublin'),
+              '30' => xl('(GMT) Lisbon'),
+              '31' => xl('(GMT) London'),
+              '32' => xl('(GMT) Monrovia'),
+              '33' => xl('(GMT+01:00) Amsterdam'),
+              '34' => xl('(GMT+01:00) Belgrade'),
+              '35' => xl('(GMT+01:00) Berlin'),
+              '36' => xl('(GMT+01:00) Bratislava'),
+              '37' => xl('(GMT+01:00) Brussels'),
+              '38' => xl('(GMT+01:00) Budapest'),
+              '39' => xl('(GMT+01:00) Copenhagen'),
+              '40' => xl('(GMT+01:00) Ljubljana'),
+              '41' => xl('(GMT+01:00) Madrid'),
+              '42' => xl('(GMT+01:00) Paris'),
+              '43' => xl('(GMT+01:00) Prague'),
+              '44' => xl('(GMT+01:00) Rome'),
+              '45' => xl('(GMT+01:00) Sarajevo'),
+              '46' => xl('(GMT+01:00) Skopje'),
+              '47' => xl('(GMT+01:00) Stockholm'),
+              '48' => xl('(GMT+01:00) Vienna'),
+              '49' => xl('(GMT+01:00) Warsaw'),
+              '50' => xl('(GMT+01:00) Zagreb'),
+              '51' => xl('(GMT+02:00) Athens'),
+              '52' => xl('(GMT+02:00) Bucharest'),
+              '53' => xl('(GMT+02:00) Cairo'),
+              '54' => xl('(GMT+02:00) Harare'),
+              '55' => xl('(GMT+02:00) Helsinki'),
+              '56' => xl('(GMT+02:00) Istanbul'),
+              '57' => xl('(GMT+02:00) Jerusalem'),
+              '58' => xl('(GMT+02:00) Kyiv'),
+              '59' => xl('(GMT+02:00) Minsk'),
+              '60' => xl('(GMT+02:00) Riga'),
+              '61' => xl('(GMT+02:00) Sofia'),
+              '62' => xl('(GMT+02:00) Tallinn'),
+              '63' => xl('(GMT+02:00) Vilnius'),
+              '64' => xl('(GMT+03:00) Baghdad'),
+              '65' => xl('(GMT+03:00) Kuwait'),
+              '66' => xl('(GMT+03:00) Nairobi'),
+              '67' => xl('(GMT+03:00) Riyadh'),
+              '68' => xl('(GMT+03:00) Moscow'),
+              '69' => xl('(GMT+03:30) Tehran'),
+              '70' => xl('(GMT+04:00) Baku'),
+              '71' => xl('(GMT+04:00) Volgograd'),
+              '72' => xl('(GMT+04:00) Muscat'),
+              '73' => xl('(GMT+04:00) Tbilisi'),
+              '74' => xl('(GMT+04:00) Yerevan'),
+              '75' => xl('(GMT+04:30) Kabul'),
+              '76' => xl('(GMT+05:00) Karachi'),
+              '77' => xl('(GMT+05:00) Tashkent'),
+              '78' => xl('(GMT+05:30) Kolkata'),
+              '79' => xl('(GMT+05:45) Kathmandu'),
+              '80' => xl('(GMT+06:00) Ekaterinburg'),
+              '81' => xl('(GMT+06:00) Almaty'),
+              '82' => xl('(GMT+06:00) Dhaka'),
+              '83' => xl('(GMT+07:00) Novosibirsk'),
+              '84' => xl('(GMT+07:00) Bangkok'),
+              '85' => xl('(GMT+07:00) Jakarta'),
+              '86' => xl('(GMT+08:00) Krasnoyarsk'),
+              '87' => xl('(GMT+08:00) Chongqing'),
+              '88' => xl('(GMT+08:00) Hong Kong'),
+              '89' => xl('(GMT+08:00) Kuala Lumpur'),
+              '90' => xl('(GMT+08:00) Perth'),
+              '91' => xl('(GMT+08:00) Singapore'),
+              '92' => xl('(GMT+08:00) Taipei'),
+              '93' => xl('(GMT+08:00) Ulaan Bataar'),
+              '94' => xl('(GMT+08:00) Urumqi'),
+              '95' => xl('(GMT+09:00) Irkutsk'),
+              '96' => xl('(GMT+09:00) Seoul'),
+              '97' => xl('(GMT+09:00) Tokyo'),
+              '98' => xl('(GMT+09:30) Adelaide'),
+              '99' => xl('(GMT+09:30) Darwin'),
+              '100' => xl('(GMT+10:00) Yakutsk'),
+              '101' => xl('(GMT+10:00) Brisbane'),
+              '102' => xl('(GMT+10:00) Canberra'),
+              '103' => xl('(GMT+10:00) Guam'),
+              '104' => xl('(GMT+10:00) Hobart'),
+              '105' => xl('(GMT+10:00) Melbourne'),
+              '106' => xl('(GMT+10:00) Port Moresby'),
+              '107' => xl('(GMT+10:00) Sydney'),
+              '108' => xl('(GMT+11:00) Vladivostok'),
+              '109' => xl('(GMT+12:00) Magadan'),
+              '110' => xl('(GMT+12:00) Auckland'),
+              '111' => xl('(GMT+12:00) Fiji'),
+          ),
+          '4',
+          xl('Select locale timezone.')
+
+      ),
     'currency_decimals' => array(
       xl('Currency Decimal Places'),
       array(
@@ -520,21 +640,7 @@ $GLOBALS_METADATA = array(
       'num',
       '3',
       xl('If YMD is selected for age display, switch to just Years when patients older than this value in years')
-    ),
-    // Reference - https://en.wikipedia.org/wiki/Workweek_and_weekend#Around_the_world
-    'weekend_days' => array(
-      xl('Your weekend days'),
-      array(
-         '6,0' => xl('Saturday') . ' - ' . xl('Sunday'),
-          '0' => xl('Sunday'),
-          '5' => xl('Friday'),
-          '6' => xl('Saturday'),
-          '5,6' => xl('Friday') .' - ' . xl('Saturday'),
-      ),
-      '6,0'
-      ,xl('which days are your weekend days?')
-  )
-
+    ),      
   ),
 
   // Features Tab
@@ -545,6 +651,7 @@ $GLOBALS_METADATA = array(
       xl('Specific Application'),
       array(
         '0' => xl('None'),
+        '1' => xl('Athletic team'),
         '2' => xl('IPPF'),
         '3' => xl('Weight loss clinic'),
       ),
@@ -837,17 +944,6 @@ $GLOBALS_METADATA = array(
       '2',                              // default = 2
       xl('This will Display the Invoice Number in the Sales Report or the Patient Name and ID or Patient Name and Invoice Number.')
     ), 
-	
-    'cash_receipts_report_invoice' => array(
-      xl('Display Invoice Number or Patient Name in the Cash Receipt Report'),
-      array(
-        '0' => xl('Invoice Number'),
-        '1' => xl('Patient Name'),  
-      ),   
-      '0',                              // default = 0
-      xl('Display Invoice Number or Patient Name in the Cash Receipt Report')
-    ),
-	
   ),
     
   // Billing Tab
@@ -1186,16 +1282,7 @@ $GLOBALS_METADATA = array(
       'day',                              // default
       xl('This sets the Default Calendar View, Default is Day.')
     ),
-     'first_day_week' => array(
-       xl('First day in the week') ,
-       array(
-         '1' => xl('Monday'),
-         '0' => xl('Sunday'),
-         '6' => xl('Saturday')
-       ),
-       '1',
-       xl('Your first day in the week.')
-     ),
+    
     'calendar_appt_style' => array(
       xl('Appointment Display Style'),
       array(
@@ -1330,7 +1417,7 @@ $GLOBALS_METADATA = array(
       '0',                       // default
       xl('Maximum number of times a Patient can be tested in a year. Zero is no limit.')
     ),
-
+    
   ),
 
   // Security Tab

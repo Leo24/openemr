@@ -608,7 +608,7 @@ function postcalendar_userapi_submitEvent($args)
     if($event_endtype == 1) {
         $endDate = $event_endyear.'-'.$event_endmonth.'-'.$event_endday;
     } else {
-        $endDate = '0000-00-00';
+        $endDate = '1000-01-01';
     }
 
     if(!isset($event_allday)) $event_allday = 0;

@@ -409,7 +409,7 @@ class existingpatient {
             //patient appointment
             $query="select pc_eventDate, pc_endDate, pc_startTime, pc_duration, pc_recurrtype, pc_recurrspec, pc_alldayevent, pc_catid,
             pc_prefcatid from openemr_postcalendar_events WHERE pc_aid = ? AND ((pc_endDate >= ? AND pc_eventDate < ?) OR
-            (pc_endDate = '0000-00-00' AND pc_eventDate >= ? AND pc_eventDate < ?)) AND pc_facility = ?";
+            (pc_endDate = '1000-01-01' AND pc_eventDate >= ? AND pc_eventDate < ?)) AND pc_facility = ?";
             return array($query,$data[1]);
             break;
             

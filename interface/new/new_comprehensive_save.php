@@ -71,7 +71,7 @@ updatePatientData($pid, $newdata['patient_data'], true);
 updateEmployerData($pid, $newdata['employer_data'], true);
 
 $i1dob = fixDate(formData("i1subscriber_DOB"));
-$i1date = fixDate(formData("i1effective_date"));
+$i1date = fixDateDefaultAmended(formData("i1effective_date"));
 
 // sqlStatement("unlock tables");
 // end table lock
@@ -110,7 +110,7 @@ newInsuranceData(
 
 
 $i2dob = fixDate(formData("i2subscriber_DOB"));
-$i2date = fixDate(formData("i2effective_date"));
+$i2date = fixDateDefaultAmended(formData("i2effective_date"));
 
 
 
@@ -146,7 +146,7 @@ newInsuranceData(
 );
 
 $i3dob  = fixDate(formData("i3subscriber_DOB"));
-$i3date = fixDate(formData("i3effective_date"));
+$i3date = fixDateDefaultAmended(formData("i3effective_date"));
 
 newInsuranceData(
   $pid,

@@ -46,11 +46,14 @@ while ($frow = sqlFetchArray($fres)) {
 
   $newdata[$table][$colname] = $value;
 }
+
+$newdata['patient_data']['DOB'] = prepareDateBeforeSave($newdata['patient_data']['DOB']);
+$newdata['patient_data']['deceased_date'] = prepareDateBeforeSave($newdata['patient_data']['deceased_date']);
 updatePatientData($pid, $newdata['patient_data']);
 updateEmployerData($pid, $newdata['employer_data']);
 
-$i1dob = fixDate(formData("i1subscriber_DOB"));
-$i1date = fixDate(formData("i1effective_date"), date('Y-m-d'));
+$i1dob = prepareDateBeforeSave(formData("i1subscriber_DOB"));
+$i1date = prepareDateBeforeSave(formData("i1effective_date"));
 
 newInsuranceData(
   $pid,
@@ -84,8 +87,8 @@ newInsuranceData(
   formData('i1policy_type')
 );
 
-$i2dob = fixDate(formData("i2subscriber_DOB"));
-$i2date = fixDate(formData("i2effective_date"), date('Y-m-d'));
+$i2dob = prepareDateBeforeSave(formData("i2subscriber_DOB"));
+$i2date = prepareDateBeforeSave(formData("i2effective_date"));
 
 newInsuranceData(
   $pid,
@@ -119,8 +122,8 @@ newInsuranceData(
   formData('i2policy_type')
 );
 
-$i3dob  = fixDate(formData("i3subscriber_DOB"));
-$i3date = fixDate(formData("i3effective_date"), date('Y-m-d'));
+$i3dob  = prepareDateBeforeSave(formData("i3subscriber_DOB"));
+$i3date = prepareDateBeforeSave(formData("i3effective_date"));
 
 newInsuranceData(
   $pid,

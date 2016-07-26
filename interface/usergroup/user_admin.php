@@ -286,7 +286,7 @@ function submitform() {
 	<?php } ?>
 	if(flag == 0){
                     document.forms[0].submit();
-                    parent.$.fn.fancybox.close(); 
+                    parent.$.fn.fancybox.close();
 	}
 }
 //Getting the list of selected item in ACL
@@ -335,8 +335,8 @@ function authorized_clicked() {
 <input type=hidden name="get_admin_id" value="<?php echo $GLOBALS['Emergency_Login_email']; ?>" >
 <input type=hidden name="admin_id" value="<?php echo $GLOBALS['Emergency_Login_email_id']; ?>" >
 <input type=hidden name="check_acl" value="">
-<?php 
-//Calculating the grace time 
+<?php
+//Calculating the grace time
 $current_date = date("Y-m-d");
 $password_exp=$iter["pwd_expiration_date"];
 if($password_exp != "0000-00-00")
@@ -542,8 +542,23 @@ echo generate_select_list('irnpool', 'irnpool', $iter['irnpool'],
   </select></td>
   <td><span class=text><?php xl('Additional Info','e'); ?>:</span></td>
   <td><textarea style="width:150px;" name="comments" wrap=auto rows=4 cols=25><?php echo $iter["info"];?></textarea></td>
-
   </tr>
+     <tr>
+         <td><span class=text><?php xl('User timezone','e'); ?>:</span></td>
+         <td><select id="user_timezones_list" name="user_timezone" style="width:150px; margin: 10px 0" >
+                 <?php
+                 $userTimezones = timezonesList();
+                 Nforeach($userTimezones as $k => $userTimezone){
+                     if($k !== $iter["user_timezone"]){
+                         echo " <option value='$k'>" . $userTimezone . "</option>\n";
+                     }else{
+                         echo " <option selected value='$k'>" . $userTimezone . "</option>\n";
+                     }
+                 }
+                 ?>
+             </select></td>
+     </tr>
+     <tr>
   <tr height="20" valign="bottom">
   <td colspan="4" class="text">
   <font class="mandatory">*</font> <?php xl('You must enter your own password to change user passwords. Leave blank to keep password unchanged.','e'); ?>
