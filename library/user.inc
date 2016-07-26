@@ -144,4 +144,13 @@ function getUserIDInfo($id)
     $res= sqlStatement("SELECT fname,lname,username FROM users where id=?",array($id));
     return sqlFetchArray($res);
 }
+
+function setUserTimezone($username, $userTimezone){
+  if (!empty($userTimezone) && !empty($username)) {
+    $result = sqlStatement("select id from users where username = ?", array($username));
+    $row = sqlFetchArray($result);
+    $userId = $row['id'];
+    sqlStatement("update users set user_timezone = '$userTimezone' where id = ? ", array($userId));
+  }
+}
 ?>

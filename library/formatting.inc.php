@@ -29,11 +29,24 @@ function oeFormatShortDate($date='today') {
   return $date;
 }
 
+// adjust time accordingly to 'locale_timezone' setting
+function adjustTime($time)
+{
+    $userTimezone = new DateTimeZone($GLOBALS['locale_timezone']);
+    $DateTime = new DateTime();
+    $DateTime->setTimestamp(strtotime( $time ));
+    $DateTime->setTimezone(new DateTimeZone('GMT'));
+    $offset = $userTimezone->getOffset($DateTime);
+    $time = date('Y-m-d H:i', $DateTime->format('U') + $offset);
+
+    return $time;
+}
+
 // 0 - Time format 24 hr
 // 1 - Time format 12 hr
 function oeFormatTime( $time, $format = "" ) 
 {
-	$formatted = $time;
+  	$formatted =  adjustTime($time);
 	if ( $format == "" ) {
 		$format = $GLOBALS['time_display_format'];
 	}

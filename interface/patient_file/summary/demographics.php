@@ -216,6 +216,30 @@ if ($result3['provider']) {   // Use provider in case there is an ins record w/ 
 <?php } ?>
  }
 
+ function validate() {
+  var f = document.forms[0];
+<?php
+if ($GLOBALS['athletic_team']) {
+  echo "  if (f.form_userdate1.value != f.form_original_userdate1.value) {\n";
+  $irow = sqlQuery("SELECT id, title FROM lists WHERE " .
+    "pid = ? AND enddate IS NULL ORDER BY begdate DESC LIMIT 1", array($pid));
+  if (!empty($irow)) {
+?>
+   if (confirm('Do you wish to also set this new return date in the issue titled "<?php echo htmlspecialchars($irow['title'],ENT_QUOTES); ?>"?')) {
+    f.form_issue_id.value = '<?php echo htmlspecialchars($irow['id'],ENT_QUOTES); ?>';
+   } else {
+    alert('OK, you will need to manually update the return date in any affected issue(s).');
+   }
+<?php } else { ?>
+   alert('You have changed the return date but there are no open issues. You probably need to create or modify one.');
+<?php
+  } // end empty $irow
+  echo "  }\n";
+} // end athletic team
+?>
+  return true;
+ }
+
  function newEvt() {
   dlgopen('../../main/calendar/add_edit_event.php?patientid=<?php echo htmlspecialchars($pid,ENT_QUOTES); ?>', '_blank', 775, 375);
   return false;
@@ -699,6 +723,7 @@ if ($GLOBALS['patient_id_category_name']) {
                                   $widgetButtonLink, $widgetButtonClass, $linkMethod, $bodyClass,
                                   $widgetAuth, $fixedWidth, $forceExpandAlways);
                                 ?>
+
         <br>
 <?php
 		//PATIENT BALANCE,INS BALANCE naina@capminds.com
@@ -1314,6 +1339,69 @@ expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel,
 	  echo "   <br />&nbsp;<br />\n";
 	}
 
+	// This stuff only applies to athletic team use of OpenEMR.  The client
+	// insisted on being able to quickly change fitness and return date here:
+	//
+	if (false && $GLOBALS['athletic_team']) {
+	  //                  blue      green     yellow    red       orange
+	  $fitcolors = array('#6677ff','#00cc00','#ffff00','#ff3333','#ff8800','#ffeecc','#ffccaa');
+	  if (!empty($GLOBALS['fitness_colors'])) $fitcolors = $GLOBALS['fitness_colors'];
+	  $fitcolor = $fitcolors[0];
+	  $form_fitness   = $_POST['form_fitness'];
+	  $form_userdate1 = fixDate($_POST['form_userdate1'], '');
+	  $form_issue_id  = $_POST['form_issue_id'];
+	  if ($form_submit) {
+		$returndate = $form_userdate1 ? "'$form_userdate1'" : "NULL";
+		sqlStatement("UPDATE patient_data SET fitness = ?, " .
+		  "userdate1 = ? WHERE pid = ?", array($form_fitness, $returndate, $pid) );
+		// Update return date in the designated issue, if requested.
+		if ($form_issue_id) {
+		  sqlStatement("UPDATE lists SET returndate = ? WHERE " .
+		    "id = ?", array($returndate, $form_issue_id) );
+		}
+	  } else {
+		$form_fitness = $result['fitness'];
+		if (! $form_fitness) $form_fitness = 1;
+		$form_userdate1 = $result['userdate1'];
+	  }
+	  $fitcolor = $fitcolors[$form_fitness - 1];
+	  echo "   <form method='post' action='demographics.php' onsubmit='return validate()'>\n";
+	  echo "   <span class='bold'>Fitness to Play:</span><br />\n";
+	  echo "   <select name='form_fitness' style='background-color:$fitcolor'>\n";
+	  $res = sqlStatement("SELECT * FROM list_options WHERE " .
+		"list_id = 'fitness' ORDER BY seq");
+	  while ($row = sqlFetchArray($res)) {
+		$key = $row['option_id'];
+		echo "    <option value='" . htmlspecialchars($key,ENT_QUOTES) . "'";
+		if ($key == $form_fitness) echo " selected";
+		echo ">" . htmlspecialchars($row['title'],ENT_NOQUOTES) . "</option>\n";
+	  }
+	  echo "   </select>\n";
+	  echo "   <br /><span class='bold'>Return to Play:</span><br>\n";
+	  echo "   <input type='text' size='10' name='form_userdate1' id='form_userdate1' " .
+		"value='$form_userdate1' " .
+		"title='" . htmlspecialchars(xl('yyyy-mm-dd Date of return to play'),ENT_QUOTES) . "' " .
+		"onkeyup='datekeyup(this,mypcc)' onblur='dateblur(this,mypcc)' />\n" .
+		"   <img src='../../pic/show_calendar.gif' align='absbottom' width='24' height='22' " .
+		"id='img_userdate1' border='0' alt='[?]' style='cursor:pointer' " .
+		"title='" . htmlspecialchars(xl('Click here to choose a date'),ENT_QUOTES) . "'>\n";
+	  echo "   <input type='hidden' name='form_original_userdate1' value='" . htmlspecialchars($form_userdate1,ENT_QUOTES) . "' />\n";
+	  echo "   <input type='hidden' name='form_issue_id' value='' />\n";
+	  echo "<p><input type='submit' name='form_submit' value='Change' /></p>\n";
+	  echo "   </form>\n";
+	}
+
+	// Show current and upcoming appointments.
+	if (isset($pid) && !$GLOBALS['disable_calendar']) {
+        // 
+        $current_date2 = date('Y-m-d');
+        $events = array();
+        $apptNum = (int)$GLOBALS['number_of_appts_to_show'];
+        if($apptNum != 0) $apptNum2 = abs($apptNum);
+        else $apptNum2 = 10;
+        $events = fetchNextXAppts($current_date2, $pid, $apptNum2);
+        $events = sortAppointments($events);
+        //////
 
      // Show Clinical Reminders for any user that has rules that are permitted.
      $clin_rem_check = resolve_rules_sql('','0',TRUE,'',$_SESSION['authUser']); 
@@ -1334,40 +1422,6 @@ expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel,
         echo "</div>";
         } // end if crw
 
-
-      // Show current and upcoming appointments.
-      //
-      // Appointments code modified to add recurring appts
-      // and appt display sets by Ian Jardine.
-      //
-      if (isset($pid) && !$GLOBALS['disable_calendar']) {
-      //
-        $current_date2 = date('Y-m-d');
-        $events = array();
-        $apptNum = (int)$GLOBALS['number_of_appts_to_show'];
-        if($apptNum != 0) $apptNum2 = abs($apptNum);
-        else $apptNum2 = 10;
-        $events = fetchNextXAppts($current_date2, $pid, $apptNum2 + 1);
-        //////
-        if(count($events) > $apptNum2) {
-          $extraApptDate = $events[$apptNum2]['pc_eventDate'];
-          array_pop($events);
-        }
-        else $extraApptDate = '';
-        //////
-        if($extraApptDate) {
-          $firstApptIndx = 0;
-          $lastApptIndx = $apptNum2 - 1;
-          $lastApptDate = $events[$lastApptIndx]['pc_eventDate'];
-          for($i = 0; $i <= $lastApptIndx; ++$i) {
-            if($events[$lastApptIndx - $i]['pc_eventDate'] != $lastApptDate) {
-              $firstApptIndx = $apptNum2 - $i;
-              break;
-            }
-          }
-        }
-        //////
-
 	// appointments expand collapse widget
         $widgetTitle = xl("Appointments");
         $widgetLabel = "appointments";
@@ -1376,17 +1430,13 @@ expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel,
         $widgetButtonClass = "";
         $linkMethod = "javascript";
         $bodyClass = "summary_item small";
-        $widgetAuth = $resNotNull; // $resNotNull reflects state of query in fetchAppointments
+        $widgetAuth = $resNotNull; // $resNotNull refects state of query (appts) in fetchAppointments()
         $fixedWidth = false;
         expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel , $widgetButtonLink, $widgetButtonClass, $linkMethod, $bodyClass, $widgetAuth, $fixedWidth);
         $count = 0;
-        //
-        $toggleSet = true;
-        $priorDate = "";
-        //
         foreach($events as $row) { //////
             $count++;
-            $dayname = date("l", strtotime($row['pc_eventDate'])); //////
+            $dayname = date("D", strtotime($row['pc_eventDate'])); //////
             $dispampm = "am";
             $disphour = substr($row['pc_startTime'], 0, 2) + 0;
             $dispmin  = substr($row['pc_startTime'], 3, 2);
@@ -1398,43 +1448,25 @@ expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel,
             if ($row['pc_hometext'] != "") {
                 $etitle = xl('Comments').": ".($row['pc_hometext'])."\r\n".$etitle;
             }
-            //////
-            if($extraApptDate && $count > $firstApptIndx) {
-              if($row['pc_eventDate'] == $extraApptDate) $apptStyle = " style='background-color:#ffe6ff;'";
-              else $apptStyle = " style='background-color:#e6ffe6;'";
-            } else {
-              if($row['pc_eventDate'] != $priorDate) {
-                $priorDate = $row['pc_eventDate'];
-                $toggleSet = !$toggleSet;
-              }
-              if($toggleSet) $apptStyle = " style='background-color:#e6e6ff;'";
-              else $apptStyle = '';
-            }
-            //////
-            echo "<div " . $apptStyle . ">";
+            ////////////
             echo "<a href='javascript:oldEvt(" . htmlspecialchars(preg_replace("/-/", "", $row['pc_eventDate']),ENT_QUOTES) . ', ' . htmlspecialchars($row['pc_eid'],ENT_QUOTES) . ")' title='" . htmlspecialchars($etitle,ENT_QUOTES) . "'>";
-            echo "<b>" . htmlspecialchars($row['pc_eventDate'],ENT_NOQUOTES) . ", ";
-            echo htmlspecialchars(sprintf("%02d", $disphour) .":$dispmin " . xl($dispampm) . " (" . xl($dayname),ENT_NOQUOTES)  . ")</b> ";
+            ////////////
+            echo "<b>" . htmlspecialchars($row['pc_eventDate'] . " (" . xl($dayname),ENT_NOQUOTES) . ")</b><br>";
+            echo htmlspecialchars("$disphour:$dispmin " . xl($dispampm),ENT_NOQUOTES) . " ";
             if ($row['pc_recurrtype']) echo "<img src='" . $GLOBALS['webroot'] . "/interface/main/calendar/modules/PostCalendar/pntemplates/default/images/repeating8.png' border='0' style='margin:0px 2px 0px 2px;' title='".htmlspecialchars(xl("Repeating event"),ENT_QUOTES)."' alt='".htmlspecialchars(xl("Repeating event"),ENT_QUOTES)."'>";
-            echo "<span title='" . generate_display_field(array('data_type'=>'1','list_id'=>'apptstat'),$row['pc_apptstatus']) . "'>";
-            echo "<br>" . xlt('Status') . "( " . htmlspecialchars($row['pc_apptstatus'],ENT_NOQUOTES) . " ) </span>";
-            echo htmlspecialchars(xl_appt_category($row['pc_catname']),ENT_NOQUOTES) . "\n";
-            if ($row['pc_hometext']) echo " <span style='color:green'> Com</span>";
-            echo "<br>" . htmlspecialchars($row['ufname'] . " " . $row['ulname'],ENT_NOQUOTES) . "</a></div>\n";
-            //////
+            echo "<span title='" . generate_display_field(array('data_type'=>'1','list_id'=>'apptstat'),$row['pc_apptstatus']) . "'> ( " . htmlspecialchars($row['pc_apptstatus'],ENT_NOQUOTES) . " )</span>";
+            if ($row['pc_hometext']) echo "<font color='green'> CMT</font>";
+            echo "<br>" . htmlspecialchars(xl_appt_category($row['pc_catname']),ENT_NOQUOTES) . "<br>\n";
+            echo htmlspecialchars($row['ufname'] . " " . $row['ulname'],ENT_NOQUOTES) . "</a><br>\n";
         }
         if ($resNotNull) { //////
-            if ( $count < 1 ) {
-                echo "&nbsp;&nbsp;" . htmlspecialchars(xl('None'),ENT_NOQUOTES);
-            } else { //////
-              if($extraApptDate) echo "<div>&nbsp;</div>";
-              else echo "<div><hr></div>";
+            if ( $count < 1 ) { 
+                echo "&nbsp;&nbsp;" . htmlspecialchars(xl('None'),ENT_NOQUOTES); 
             }
             echo "</div>";
         }
-      } // End of Appointments.
-
-
+      }
+            
 	// Show PAST appointments.
 	// added by Terry Hill to allow reverse sorting of the appointments
  	$direction = "ASC";
@@ -1485,7 +1517,7 @@ expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel,
             if ($row['pc_hometext'] != "") {
                 $etitle = xl('Comments').": ".($row['pc_hometext'])."\r\n".$etitle;
             }
-            echo "<a href='javascript:oldEvt(" . htmlspecialchars(preg_replace("/-/", "", $row['pc_eventDate']),ENT_QUOTES) . ', ' . htmlspecialchars($row['pc_eid'],ENT_QUOTES) . ")' title='" . htmlspecialchars($etitle,ENT_QUOTES) . "'>";
+            echo "<a href='javascript:oldEvt(" . htmlspecialchars($row['pc_eid'],ENT_QUOTES) . ")' title='" . htmlspecialchars($etitle,ENT_QUOTES) . "'>";
             echo "<b>" . htmlspecialchars(xl($dayname) . ", " . $row['pc_eventDate'],ENT_NOQUOTES) . "</b>" . xlt("Status") .  "(";
             echo " " .  generate_display_field(array('data_type'=>'1','list_id'=>'apptstat'),$row['pc_apptstatus']) . ")<br>";   // can't use special char parser on this
             echo htmlspecialchars("$disphour:$dispmin ") . xl($dispampm) . " ";
@@ -1556,6 +1588,11 @@ expand_collapse_widget($widgetTitle, $widgetLabel, $widgetButtonLabel,
 
 </div> <!-- end main content div -->
 
+<?php if (false && $GLOBALS['athletic_team']) { ?>
+<script language='JavaScript'>
+ Calendar.setup({inputField:"form_userdate1", ifFormat:"%Y-%m-%d", button:"img_userdate1"});
+</script>
+<?php } ?>
 <script language='JavaScript'>
 // Array of skip conditions for the checkSkipConditions() function.
 var skipArray = [

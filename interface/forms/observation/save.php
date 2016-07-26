@@ -35,6 +35,7 @@ include_once("../../globals.php");
 include_once("$srcdir/api.inc");
 include_once("$srcdir/forms.inc");
 require_once("$srcdir/formdata.inc.php");
+require_once($GLOBALS['srcdir'].'/patient.inc');
 
 if (!$encounter) { // comes from globals.php
     die(xlt("Internal error: we do not seem to be in an encounter!"));
@@ -102,7 +103,7 @@ if (!empty($code_desc)) {
             table_code  = '" . add_escape_custom($table_code[$key]) . "',
             ob_value    = '" . add_escape_custom($ob_value[$key]) . "',
             ob_unit     = '" . add_escape_custom($ob_unit_value) . "',
-            date        = '" . add_escape_custom($code_date[$key]) . "'";
+            date        = '" . add_escape_custom(fixDate($code_date[$key])) . "'";
         sqlInsert("INSERT INTO form_observation SET $sets");
     endforeach;
 }

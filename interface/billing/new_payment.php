@@ -41,6 +41,7 @@ require_once(dirname(__FILE__) . "/../../library/classes/X12Partner.class.php");
 require_once("$srcdir/options.inc.php");
 require_once("$srcdir/formatting.inc.php");
 require_once("$srcdir/payment.inc.php");
+require_once($GLOBALS['srcdir'].'/patient.inc');
 //===============================================================================
 	$screen='new_payment';
 //===============================================================================
@@ -68,9 +69,9 @@ if ($mode == "new_payment" || $mode == "distribute")
       $user_id=$_SESSION['authUserID'];
 	  $closed=0;
 	  $modified_time = date('Y-m-d H:i:s');
-	  $check_date=DateToYYYYMMDD(formData('check_date'));
-	  $deposit_date=DateToYYYYMMDD(formData('deposit_date'));
-	  $post_to_date=DateToYYYYMMDD(formData('post_to_date'));
+	  $check_date=fixDate(DateToYYYYMMDD(formData('check_date')));
+	  $deposit_date=fixDate(DateToYYYYMMDD(formData('deposit_date')));
+	  $post_to_date=fixDate(DateToYYYYMMDD(formData('post_to_date')));
 	  if($post_to_date=='')
 	   $post_to_date=date('Y-m-d');
 	  if(formData('deposit_date')=='')

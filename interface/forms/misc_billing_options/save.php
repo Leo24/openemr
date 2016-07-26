@@ -3,6 +3,7 @@ require_once("../../globals.php");
 require_once("$srcdir/api.inc");
 require_once("$srcdir/forms.inc");
 require_once("$srcdir/formdata.inc.php");
+require_once($GLOBALS['srcdir'].'/patient.inc');
 
 if (! $encounter) { // comes from globals.php
  die(xl("Internal error: we do not seem to be in an encounter!"));
@@ -29,18 +30,18 @@ $sets = "pid = {$_SESSION["pid"]},
   outside_lab                 = '" . formData("outside_lab") . "',
   lab_amount                  = '" . formData("lab_amount") . "',
   is_unable_to_work           = '" . formData("is_unable_to_work") . "',
-  date_initial_treatment      = '" . formData("date_initial_treatment") . "',
-  off_work_from               = '" . formData("off_work_from") . "',
-  off_work_to                 = '" . formData("off_work_to") . "',
-  is_hospitalized             = '" . formData("is_hospitalized") . "',
-  hospitalization_date_from   = '" . formData("hospitalization_date_from") . "',
-  hospitalization_date_to     = '" . formData("hospitalization_date_to") . "',
+  date_initial_treatment      = '" . fixDate(formData("date_initial_treatment")) . "',
+  off_work_from               = '" . fixDate(formData("off_work_from")) . "',
+  off_work_to                 = '" . fixDate(formData("off_work_to")) . "',
+  is_hospitalized             = '" . fixDate(formData("is_hospitalized")) . "',
+  hospitalization_date_from   = '" . fixDate(formData("hospitalization_date_from")) . "',
+  hospitalization_date_to     = '" . fixDate(formData("hospitalization_date_to")) . "',
   medicaid_resubmission_code  = '" . formData("medicaid_resubmission_code") . "',
   medicaid_original_reference = '" . formData("medicaid_original_reference") . "',
   prior_auth_number           = '" . formData("prior_auth_number") . "',
   replacement_claim           = '" . formData("replacement_claim") . "',
-  box_14_date_qual            = '" . formData("box_14_date_qual") . "',
-  box_15_date_qual            = '" . formData("box_15_date_qual") . "',
+  box_14_date_qual            = '" . fixDate(formData("box_14_date_qual")) . "',
+  box_15_date_qual            = '" . fixDate(formData("box_15_date_qual")) . "',
   comments                    = '" . formData("comments") . "'";
 
 if (empty($id)) {

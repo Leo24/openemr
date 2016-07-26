@@ -196,6 +196,12 @@ if (isset($_POST["privatemode"]) && $_POST["privatemode"] =="user_admin") {
         $tqvar = formData('comments','P');
         sqlStatement("update users set info = '$tqvar' where id = ? ", array($_POST["id"]));
       }
+
+      if ($_POST["user_timezone"]) {
+        $tqvar = formData('user_timezone','P');
+        sqlStatement("update users set user_timezone = '$tqvar' where id = ? ", array($_POST["id"]));
+      }
+
 	$erxrole = formData('erxrole','P');
 	sqlStatement("update users set newcrop_user_role = '$erxrole' where id = ? ", array($_POST["id"]));
 
